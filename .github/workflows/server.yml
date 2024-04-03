@@ -23,17 +23,21 @@ jobs:
         node-version: '14'
 
     - name: Install dependencies
+      working-directory: ./server
       run: npm install
 
     - name: Lint
+      working-directory: ./server
       run: npm run lint
       # Make sure you have a lint script in your package.json
 
     - name: Run tests
+      working-directory: ./server
       run: npm test
       # This assumes you have a test script in your package.json
 
     - name: Build
+      working-directory: ./server
       run: npm run build
       # Builds your application, make sure you have a build script in your package.json
 
@@ -42,7 +46,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: "npm test -- --coverage --coverageThreshold=\"{\\\"global\\\": {\\\"branches\\\": 60, \\\"functions\\\": 60, \\\"lines\\\": 60, \\\"statements\\\": 60}}\""
   
-  deploy:
+  deploy: # deploy server, for later on
     needs: build_and_test
     runs-on: ubuntu-latest
     steps:
@@ -50,11 +54,3 @@ jobs:
 
     - name: Setup Node.js
       uses: actions/setup-node@v1
-
-    - name: Vercel Deploy
-      uses: amondnet/vercel-action@v20
-      with:
-        vercel_token: ${{ secrets.VERCEL_TOKEN }}
-        project_name: "group-project-team-7"
-        org_id: ${{ secrets.VERCEL_ORG_ID }}
-        project_id: ${{ secrets.VERCEL_PROJECT_ID }}
