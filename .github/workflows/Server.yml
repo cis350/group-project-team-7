@@ -1,0 +1,60 @@
+name: Server CI/CD
+
+on:
+  push:
+    branches: [ '**' ]
+    paths:
+      - 'server/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Lint
+      run: npm run lint
+      # Make sure you have a lint script in your package.json
+
+    - name: Run tests
+      run: npm test
+      # This assumes you have a test script in your package.json
+
+    - name: Build
+      run: npm run build
+      # Builds your application, make sure you have a build script in your package.json
+
+      # Conditional step for checking code coverage on main branch
+    - name: Check code coverage
+      if: github.ref == 'refs/heads/main'
+      run: "npm test -- --coverage --coverageThreshold=\"{\\\"global\\\": {\\\"branches\\\": 60, \\\"functions\\\": 60, \\\"lines\\\": 60, \\\"statements\\\": 60}}\""
+  
+  deploy:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+
+    - name: Vercel Deploy
+      uses: amondnet/vercel-action@v20
+      with:
+        vercel_token: ${{ secrets.VERCEL_TOKEN }}
+        project_name: "group-project-team-7"
+        org_id: ${{ secrets.VERCEL_ORG_ID }}
+        project_id: ${{ secrets.VERCEL_PROJECT_ID }}
