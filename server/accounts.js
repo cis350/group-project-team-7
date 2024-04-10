@@ -6,7 +6,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 // the mongodb server URL
 const dbURL = "mongodb://localhost:27017/users";
 
-const uri = "mongodb+srv://lionness267:<mongo350wootwoot>@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -27,7 +27,7 @@ const connect = async () => {
   // always use try/catch to handle any exception
   try {
     MongoConnection = (await MongoClient.connect(
-      dbURL,
+      uri,
       { useNewUrlParser: true, useUnifiedTopology: true },
     )); // we return the entire connection, not just the DB
     console.log(`connected to db: ${MongoConnection.db().databaseName}`);
