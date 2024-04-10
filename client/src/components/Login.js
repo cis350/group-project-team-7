@@ -51,13 +51,13 @@ const Login = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
-          <img
+          {/* <img
             className="m-auto text-center text-light"
             src={"https://w7.pngwing.com/pngs/773/201/png-transparent-airplane-aircraft-flight-logo-airplane-blue-logo-flight-thumbnail.png"}
             width="25"
-          ></img>
+          ></img> */}
         </div>
-        <div className="text-center mb-4 text-2xl font-semibold">Sky High Entertainment</div>
+        <div className="text-center mb-4 text-2xl font-semibold">Moder Patshala</div>
         <div className="mx-auto w-fit">
           <div>
             <TextField

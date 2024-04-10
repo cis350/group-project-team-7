@@ -45,12 +45,12 @@ const Home = () => {
 						<main className="mx-auto mt-10 max-w-7xl px-6 sm:mt-12 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
 							<div className="sm:text-center lg:text-left">
 								<h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-5xl">
-									<span className="block">Sky-High Entertainment:</span>{" "}
+									<span className="block">Moder Patshala:</span>{" "}
 									<span className="block text-mainBlue">
-										Find Your Perfect Flight and In-Flight Movie
+										Guiding Students and Parents to a Brighter Future Since 2004
 									</span>
 								</h1>
-								<p className="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg font-light md:mt-5 lg:mx-0">
+								{/* <p className="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg font-light md:mt-5 lg:mx-0">
 									Welcome to Sky-High Entertainment, your ultimate flight
 									companion! Our app recommends flights that match your
 									preferences and also suggests the perfect movie to watch
@@ -58,7 +58,7 @@ const Home = () => {
 									customized flight recommendations and curated movie
 									suggestions, tailored to your unique tastes. Travel in comfort
 									and style with Sky-High Entertainment.
-								</p>
+								</p> */}
 								<div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
 									<div className="rounded-md shadow">
 										<a
@@ -81,15 +81,15 @@ const Home = () => {
 						</main>
 					</div>
 				</div>
-				<div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+				{/* <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
 					<img
 						className="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full lg:w-full"
 						src="/personwatchingmovie.jpg"
 						alt=""
 					/>
-				</div>
+				</div> */}
 			</div>
-			<div className="m-12">
+			{/* <div className="m-12">
 				<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-xl md:text-3xl">
 					Recommended Cheap Trips from Philadelphia
 				</h1>
@@ -156,7 +156,7 @@ const Home = () => {
 						{item.flight}, {item.newname}
 					</div>
 				))}
-			</div>
+			</div> */}
 			<FlightModal flightID={selectedFlightID} handleClick={handleClick} />
 		</>
 	);
