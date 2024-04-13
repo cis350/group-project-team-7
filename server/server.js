@@ -10,7 +10,7 @@ const serverPort = process.env.SERVER_PORT;
 // Express is used to define API endpoints
 const app = express(express.json());
 
-const whitelist = ['http://localhost:3000', 'https://*.vercel.app'];
+const whitelist = ['http://localhost:3000', 'https://group-project-team-7.vercel.app'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
@@ -26,9 +26,15 @@ const corsOptions = {
 //   cors(corsOptions),
 // );
 
-app.use(cors({
-  origin: '*' // Explicitly allow all origins
-}));
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+app.use(cors(corsConfig));
+// app.use(cors({
+//   origin: '*' // Explicitly allow all origins
+// }));
+
 app.get('/', (req, res) => {
   res.json({ message: 'CORS API endpoint test' });
 });
