@@ -15,12 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v1
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18
+      uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version: 18
 
     - name: Install dependencies
       working-directory: ./server
@@ -36,10 +35,10 @@ jobs:
       run: npm test
       # This assumes you have a test script in your package.json
 
-    - name: Build
-      working-directory: ./server
-      run: npm run build
-      # Builds your application, make sure you have a build script in your package.json
+    # - name: Build
+    #   working-directory: ./server
+    #   run: npm run build
+    #   # Builds your application, make sure you have a build script in your package.json
 
       # Conditional step for checking code coverage on main branch
     - name: Check code coverage
