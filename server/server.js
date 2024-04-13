@@ -22,9 +22,17 @@ const corsOptions = {
   },
   credentials: true,
 };
-app.use(
-  cors(corsOptions),
-);
+// app.use(
+//   cors(corsOptions),
+// );
+
+app.use(cors({
+  origin: '*' // Explicitly allow all origins
+}));
+app.get('/', (req, res) => {
+  res.json({ message: 'CORS API endpoint test' });
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
