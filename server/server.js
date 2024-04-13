@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const config = require('./config');
 const accounts = require('./accounts');
 const session = require('express-session');
+require('dotenv').config({ path: '.env' });
+
+const serverHost = process.env.SERVER_HOST;
+const serverPort = process.env.SERVER_PORT;
 
 // Express is used to define API endpoints
 const app = express(express.json());
@@ -36,9 +39,9 @@ app.post('/login', accounts.loginAccount);
 app.post('/logout', accounts.logoutAccount);
 app.post('/update_profile_picture', accounts.updateProfilePicture);
 
-app.listen(config.server_port, () => {
+app.listen(serverPort, () => {
   console.log(
-    `Server running at http://${config.server_host}:${config.server_port}/`
+    `Server running at http://${serverHost}:${serverPort}/`
   );
 });
 

@@ -1,5 +1,4 @@
 const { ObjectId } = require('mongodb');
-const config = require('./config.json')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
