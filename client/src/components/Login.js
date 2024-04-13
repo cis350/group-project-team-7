@@ -35,7 +35,7 @@ const Login = () => {
       fetch(`${serverUrl}/login?username=${username}&password=${password}`, {
         method: "POST",
         credentials: 'include'
-      }).then((data, status) => {
+      }).then((data) => {
         if (data.status === 201) {
           toast.success("Logged in!")
           navigate("/domestic");
@@ -100,12 +100,12 @@ const Login = () => {
           <button
             type="button"
             onClick={() => handleLogin()}
-            class="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            className="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
             Continue
           </button>
         </div>
         <p className="m-auto text-center text-sm">
-          Don't have an account?{" "}
+          {"Don't have an account? "}
           <a href="/signup" className="text-blue-500 text-decoration-none">
             Sign up
           </a>

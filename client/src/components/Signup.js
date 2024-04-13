@@ -35,7 +35,7 @@ const Signup = () => {
       fetch(`${serverUrl}/signup?username=${username}&password=${password}`, {
         method: "POST",
         credentials: 'include'
-      }).then((data, status) => {
+      }).then((data) => {
         if (data.status === 201) {
           toast.success("Signed up!")
         } else {
@@ -88,7 +88,7 @@ const Signup = () => {
           <button
             type="button"
             onClick={() => handleSignup()}
-            class="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            className="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
             Continue
           </button>
         </div>
