@@ -20,6 +20,7 @@ export default [
               myCustomGlobal: "readonly"
           }
       },
+      settings: { react: { version: "detect" } },
     },
     pluginReactConfig,
     pluginJs.configs.recommended,
