@@ -10,11 +10,19 @@ const serverPort = process.env.SERVER_PORT;
 // Express is used to define API endpoints
 const app = express(express.json());
 
+const whitelist = ['http://localhost:3000', 'https://group-project-team-7-3yebnl906-kriyips-projects.vercel.app'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+  cors(corsOptions),
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(
