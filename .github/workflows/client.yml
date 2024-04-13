@@ -28,9 +28,9 @@ jobs:
       working-directory: ./client
       run: npm run lint
 
-    # - name: Run tests
-    #   working-directory: ./client
-    #   run: npm test
+    - name: Run tests
+      working-directory: ./client
+      run: npm test
       # This assumes you have a test script in your package.json
 
     - name: Build
@@ -42,7 +42,7 @@ jobs:
     needs: build_and_test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup Node.js
       uses: actions/setup-node@v1
