@@ -59,14 +59,10 @@ const signupAccount = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
-  const favoriteMovies = []
-  const favoriteAirports = []
 
   const newUser = {
     username: username,
     password: password,
-    favoriteMovies: favoriteMovies,
-    favoriteAirports: favoriteAirports,
     profilePicture: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
   };
 
