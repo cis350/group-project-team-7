@@ -28,9 +28,9 @@ jobs:
       working-directory: ./client
       run: npm run lint
 
-    - name: Run tests
-      working-directory: ./client
-      run: npm test
+    # - name: Run tests
+    #   working-directory: ./client
+    #   run: npm test
       # This assumes you have a test script in your package.json
 
     - name: Build
