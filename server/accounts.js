@@ -4,7 +4,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 // the mongodb server URL
-const dbURL = "mongodb://localhost:27017/users";
+// const dbURL = "mongodb://localhost:27017/users";
 
 const uri = "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -138,91 +138,6 @@ const logoutAccount = async (req, res) => {
   res.send('Logged out');
 }
 
-const getCurrentUserAirports = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-
-  const result = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteAirports: 1 });
-  if (result) {
-    res.status(200).send(result.favoriteAirports)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
-
-const getCurrentUserMovies = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-
-  const result = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteMovies: 1 });
-  if (result) {
-    res.status(200).send(result.favoriteMovies)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
-
-const addFavoriteAirport = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-  const airportCode = req.query?.airportCode ?? undefined;
-  const airportCountry = req.query?.airportCountry ?? undefined;
-  const airportName = req.query?.airportName ?? undefined;
-
-  const result = await db.collection('users').updateOne({ username: username }, { $push: { favoriteAirports: { airportCode: airportCode, airportCountry: airportCountry, airportName: airportName } } });
-  if (result) {
-    const newFavoriteAirports = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteAirports: 1 });
-    res.status(200).send(newFavoriteAirports)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
-
-const addFavoriteMovie = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-  const name = req.query?.name ?? undefined;
-  const poster = req.query?.poster ?? undefined;
-  const runtime = req.query?.runtime ?? undefined;
-  const budget = req.query?.budget ?? undefined;
-  const imdbScore = req.query?.imdbScore ?? undefined;
-
-  const result = await db.collection('users').updateOne({ username: username }, { $push: { favoriteMovies: { name: name, poster: poster, runtime: runtime, budget: budget, imdbScore: imdbScore } } });
-  if (result) {
-    const newFavoriteMovies = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteMovies: 1 });
-    res.status(200).send(newFavoriteMovies)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
-
-const removeFavoriteMovie = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-  const name = req.query?.name ?? undefined;
-
-  const result = await db.collection('users').updateOne({ username: username }, { $pull: { favoriteMovies: { name: name } } });
-  if (result) {
-    const newFavoriteMovies = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteMovies: 1 });
-    res.status(200).send(newFavoriteMovies)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
-
-const removeFavoriteAirport = async (req, res) => {
-  const db = await getDB();
-  const username = req.session.username ?? "";
-  const airportCode = req.query?.airportCode ?? undefined;
-
-  const result = await db.collection('users').updateOne({ username: username }, { $pull: { favoriteAirports: { airportCode: airportCode } } });
-  if (result) {
-    const newFavoriteAirports = await db.collection('users').findOne({ username: username }, { _id: 0, favoriteAirports: 1 });
-    res.status(200).send(newFavoriteAirports)
-  } else {
-    res.status(400).send('User does not exist')
-  }
-}
 
 //get user info
 //get current user
@@ -237,11 +152,5 @@ module.exports = {
   loginAccount,
   logoutAccount,
   getUserInfo,
-  updateProfilePicture,
-  getCurrentUserAirports,
-  addFavoriteAirport,
-  removeFavoriteAirport,
-  getCurrentUserMovies,
-  addFavoriteMovie,
-  removeFavoriteMovie,
+  updateProfilePicture
 };

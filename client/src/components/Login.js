@@ -57,7 +57,18 @@ const Login = () => {
             width="25"
           ></img> */}
         </div>
-        <div className="text-center mb-4 text-2xl font-semibold">Moder Patshala</div>
+        <div className="text-center mb-4 text-4xl font-semibold">Moder Patshala </div>
+        <div className="text-center mb-4 text-m">Guiding Students and Parents to a Brighter Future Since 2004</div>
+        <hr
+            style={{
+                color: "black",
+                backgroundColor: "gray",
+                height: 2,
+                width: 550,
+                margin: "auto",
+                marginBottom: "20px",
+            }}
+        />
         <div className="mx-auto w-fit">
           <div>
             <TextField
@@ -86,7 +97,7 @@ const Login = () => {
           <button
             type="button"
             onClick={() => handleLogin()}
-            class="text-white w-[24vw] bg-blue-500 mt-4 hover:bg-blue-600 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            class="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
             Continue
           </button>
         </div>

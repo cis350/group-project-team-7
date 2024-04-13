@@ -35,12 +35,6 @@ app.get('/get_user_info', accounts.getUserInfo);
 app.post('/login', accounts.loginAccount);
 app.post('/logout', accounts.logoutAccount);
 app.post('/update_profile_picture', accounts.updateProfilePicture);
-app.get('/get_current_user_airports', accounts.getCurrentUserAirports);
-app.post('/add_favorite_airport', accounts.addFavoriteAirport);
-app.post('/remove_favorite_airport', accounts.removeFavoriteAirport);
-app.get('/get_current_user_movies', accounts.getCurrentUserMovies);
-app.post('/add_favorite_movie', accounts.addFavoriteMovie);
-app.post('/remove_favorite_movie', accounts.removeFavoriteMovie);
 
 app.listen(config.server_port, () => {
   console.log(

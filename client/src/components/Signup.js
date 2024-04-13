@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import toast from 'react-hot-toast';
 const config = require("../config.json");
@@ -7,7 +6,6 @@ const config = require("../config.json");
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://${config.server_host}:${config.server_port}/get_current_user`, {
@@ -84,7 +82,7 @@ const Signup = () => {
           <button
             type="button"
             onClick={() => handleSignup()}
-            class="text-white w-[24vw] bg-blue-500 mt-4 hover:bg-blue-600 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            class="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
             Continue
           </button>
         </div>
