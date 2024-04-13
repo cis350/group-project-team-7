@@ -1,56 +1,54 @@
 const { ObjectId } = require('mongodb');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = 'your_secret_key'; // Replace with your actual secret key
 
-// the mongodb server URL
-// const dbURL = "mongodb://localhost:27017/users";
-
-const uri = "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri =
+  'mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
-/**
- * MongoDB database connection
- * It will be exported so we can close the connection
- * after running our tests
- */
 let MongoConnection;
-// connection to the db
-const connect = async () => {
-  // always use try/catch to handle any exception
+
+const generateToken = (payload) => {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+};
+
+const verifyToken = (token) => {
   try {
-    MongoConnection = (await MongoClient.connect(
-      uri,
-      { useNewUrlParser: true, useUnifiedTopology: true },
-    )); // we return the entire connection, not just the DB
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    return null;
+  }
+};
+
+const connect = async () => {
+  try {
+    MongoConnection = await MongoClient.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`connected to db: ${MongoConnection.db().databaseName}`);
     return MongoConnection;
   } catch (err) {
     console.log(err.message);
   }
 };
-/**
- *
- * @returns the database attached to this MongoDB connection
- */
+
 const getDB = async () => {
-  // test if there is an active connection
   if (!MongoConnection) {
     await connect();
   }
   return MongoConnection.db();
 };
 
-/**
- *
- * Close the mongodb connection
- */
 const closeMongoDBConnection = async () => {
   await MongoConnection.close();
 };
@@ -59,11 +57,16 @@ const signupAccount = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
+  const favoriteMovies = [];
+  const favoriteAirports = [];
 
   const newUser = {
     username: username,
     password: password,
-    profilePicture: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
+    favoriteMovies: favoriteMovies,
+    favoriteAirports: favoriteAirports,
+    profilePicture:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
   };
 
   const exists = await db.collection('users').findOne({ username: username });
@@ -71,9 +74,8 @@ const signupAccount = async (req, res) => {
     res.status(400).send('Username already exists');
   } else {
     const result = await db.collection('users').insertOne(newUser);
-    req.session.username = username;
-    req.session.save();
-    res.status(201).send(result.insertedId);
+    const token = generateToken({ username });
+    res.status(201).json({ token });
   }
 };
 
@@ -82,18 +84,12 @@ const loginAccount = async (req, res) => {
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
-  const exists = await db.collection('users').findOne({ username: username });
-  if (exists) {
-    //Check password
-    if (exists.password === password) {
-      req.session.username = username;
-      req.session.save();
-      res.status(201).send(exists);
-    } else {
-      res.status(400).send('Incorrect password');
-    }
+  const user = await db.collection('users').findOne({ username: username });
+  if (user && user.password === password) {
+    const token = generateToken({ username });
+    res.status(200).json({ token });
   } else {
-    res.status(400).send('Username does not exist')
+    res.status(401).send('Invalid credentials');
   }
 };
 
@@ -102,14 +98,15 @@ const updateProfilePicture = async (req, res) => {
   const username = req.query?.username ?? undefined;
   const profilePicture = req.query?.profilePicture ?? undefined;
 
-  const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
+  const exists = await db
+    .collection('users')
+    .updateOne({ username: username }, { $set: { profilePicture: profilePicture } });
   if (exists) {
-    res.status(201).send('Profile picture updated')
+    res.status(201).send('Profile picture updated');
   } else {
-    res.status(400).send('User does not exist')
+    res.status(400).send('User does not exist');
   }
 };
-
 
 const getUserInfo = async (req, res) => {
   const db = await getDB();
@@ -117,27 +114,28 @@ const getUserInfo = async (req, res) => {
 
   const exists = await db.collection('users').findOne({ username: username });
   if (exists) {
-    res.status(200).send(exists)
+    res.status(200).send(exists);
   } else {
-    res.status(400).send('User does not exist')
+    res.status(400).send('User does not exist');
   }
 };
 
 const getCurrentUser = async (req, res) => {
-  const username = req.session.username ?? "";
-  res.send(username);
-}
+  const token = req.headers.authorization?.split(' ')[1] || '';
+  const decoded = verifyToken(token);
+
+  if (decoded) {
+    res.status(200).json({ username: decoded.username });
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+};
 
 const logoutAccount = async (req, res) => {
   req.session.destroy();
   res.send('Logged out');
-}
+};
 
-
-//get user info
-//get current user
-
-// export the functions
 module.exports = {
   closeMongoDBConnection,
   getDB,
@@ -147,5 +145,5 @@ module.exports = {
   loginAccount,
   logoutAccount,
   getUserInfo,
-  updateProfilePicture
+  updateProfilePicture,
 };
