@@ -10,30 +10,11 @@ const serverPort = process.env.SERVER_PORT;
 // Express is used to define API endpoints
 const app = express(express.json());
 
-const whitelist = ['http://localhost:3000', 'https://group-project-team-7.vercel.app'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (whitelist.some(d => new RegExp(d).test(origin))) {
-        callback(null, true);
-    } else {
-        callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
-// app.use(
-//   cors(corsOptions),
-// );
-
 const corsConfig = {
   credentials: true,
   origin: true,
 };
 app.use(cors(corsConfig));
-// app.use(cors({
-//   origin: '*' // Explicitly allow all origins
-// }));
 
 app.get('/', (req, res) => {
   res.json({ message: 'CORS API endpoint test' });
@@ -53,8 +34,8 @@ app.use(express.json({
   type: ['application/json', 'text/plain'],
 }));
 
-// Each of our endpoints used to query our database
 
+// Each of our endpoints used to query our database
 app.post('/signup', accounts.signupAccount);
 app.get('/get_current_user', accounts.getCurrentUser);
 app.get('/get_user_info', accounts.getUserInfo);
