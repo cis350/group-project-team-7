@@ -74,8 +74,8 @@ describe('Accounts.js tests', () => {
         .post('/login')
         .query({ username: 'user', password: 'password' });
       
-      expect(response.statusCode).toBe(400);
-      expect(response.text).toBe('Username does not exist');
+      expect(response.statusCode).toBe(401);
+      expect(response.text).toBe('Invalid credentials');
     });
 
     test('should return 400 if password is incorrect', async () => {
