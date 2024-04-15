@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const request = require('supertest');
-const app = require('../server'); // Adjust path as needed
+const { app, server } = require('../server'); // Adjust path as needed
 
 
 describe('GET / (test message)', () => {
@@ -25,9 +25,12 @@ describe('Accounts.js tests', () => {
   });
 
   afterAll(async () => {
-    console.log(await db.collection('users').find({}).toArray());
     await connection.close();
   });
+
+  afterAll((done) => {
+    server.close(done);  // This tells Jest to wait for the server to close before finishing the tests
+  });  
 
   beforeEach(async () => {
     await db.collection('users').deleteMany({});

@@ -62,10 +62,10 @@ app.post('/login', accounts.loginAccount);
 app.post('/logout', accounts.logoutAccount);
 app.post('/update_profile_picture', accounts.updateProfilePicture);
 
-app.listen(serverPort, () => {
+const server = app.listen(serverPort, () => {
   console.log(
     `Server running at http://${serverHost}:${serverPort}/`
   );
 });
 
-module.exports = app;
+module.exports = { app, server };
