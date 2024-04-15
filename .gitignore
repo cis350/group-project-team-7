@@ -1,45 +1,45 @@
-# Dependency directories
-node_modules/
-/client/node_modules/
+# # Dependency directories
+# node_modules/
+# /client/node_modules/
 
-# Environment configuration files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# # Environment configuration files
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
 
-# Debug logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# # Debug logs
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
 
-# Production build files
-/client/build/
+# # Production build files
+# /client/build/
 
-# OS files
-.DS_Store
-Thumbs.db
+# # OS files
+# .DS_Store
+# Thumbs.db
 
-# Editors
-.vscode/
-.idea/
-*.swp
-*.swo
-*.sublime-workspace
+# # Editors
+# .vscode/
+# .idea/
+# *.swp
+# *.swo
+# *.sublime-workspace
 
-# Optional npm cache & logs
-.npm/
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# # Optional npm cache & logs
+# .npm/
+# logs
+# *.log
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
 
-# Optional eslint cache
-.eslintcache
+# # Optional eslint cache
+# .eslintcache
 
-# Optional artifacts
-coverage/
-dist/
-tmp/
+# # Optional artifacts
+# coverage/
+# dist/
+# tmp/
