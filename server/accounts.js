@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = 'your_secret_key'; // Replace with your actual secret key
 
-const uri =
-  'mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.MONGO_URI || "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+console.log("URI: ", uri);
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -61,8 +61,7 @@ const signupAccount = async (req, res) => {
   const newUser = {
     username: username,
     password: password,
-    profilePicture:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
+    profilePicture: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
   };
 
   const exists = await db.collection('users').findOne({ username: username });
@@ -80,10 +79,16 @@ const loginAccount = async (req, res) => {
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
-  const user = await db.collection('users').findOne({ username: username });
-  if (user && user.password === password) {
-    const token = generateToken({ username });
-    res.status(200).json({ token });
+  const exists = await db.collection('users').findOne({ username: username });
+  if (exists) {
+    //Check password
+    if (exists.password === password) {
+      req.session.username = username;
+      req.session.save();
+      res.status(200).send({ id: exists._id, username: exists.username });
+    } else {
+      res.status(400).send('Incorrect password');
+    }
   } else {
     res.status(401).send('Invalid credentials');
   }
@@ -94,11 +99,9 @@ const updateProfilePicture = async (req, res) => {
   const username = req.query?.username ?? undefined;
   const profilePicture = req.query?.profilePicture ?? undefined;
 
-  const exists = await db
-    .collection('users')
-    .updateOne({ username: username }, { $set: { profilePicture: profilePicture } });
-  if (exists) {
-    res.status(201).send('Profile picture updated');
+  const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
+  if (exists.modifiedCount > 0) {
+    res.status(201).send('Profile picture updated')
   } else {
     res.status(400).send('User does not exist');
   }
