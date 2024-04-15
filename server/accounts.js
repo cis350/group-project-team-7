@@ -5,7 +5,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 // the mongodb server URL
 // const dbURL = "mongodb://localhost:27017/users";
 
-const uri = "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGO_URI || "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+console.log("URI: ", uri);
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -88,7 +89,7 @@ const loginAccount = async (req, res) => {
     if (exists.password === password) {
       req.session.username = username;
       req.session.save();
-      res.status(201).send(exists);
+      res.status(200).send({ id: exists._id, username: exists.username });
     } else {
       res.status(400).send('Incorrect password');
     }
@@ -103,7 +104,7 @@ const updateProfilePicture = async (req, res) => {
   const profilePicture = req.query?.profilePicture ?? undefined;
 
   const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
-  if (exists) {
+  if (exists.modifiedCount > 0) {
     res.status(201).send('Profile picture updated')
   } else {
     res.status(400).send('User does not exist')
