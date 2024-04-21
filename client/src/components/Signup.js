@@ -53,11 +53,6 @@ const Signup = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
-          {/* <img
-            className="m-auto text-center text-light"
-            src={"https://w7.pngwing.com/pngs/773/201/png-transparent-airplane-aircraft-flight-logo-airplane-blue-logo-flight-thumbnail.png"}
-            width="25"
-          ></img> */}
         </div>
         <div className="text-center mb-4 text-2xl font-semibold">Create your account</div>
         <div className="mx-auto w-fit">

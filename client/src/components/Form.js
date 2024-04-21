@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 const Form = () => {
-  const [username, setUsername] = useState("");
+//   const [username, setUsername] = useState("");
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
@@ -32,22 +32,7 @@ const Form = () => {
     "I feel like I don't belong at all"
   ];
 
-  // useEffect(() => {
-  //   fetch(`${serverUrl}/get_current_user`, {
-  //     method: "GET",
-  //     credentials: 'include',
-  //   }).then((res) => res.text())
-  //     .then((resText) => {
-  //       console.log(resText)
-  //       if (resText) {
-  //         console.log("wow")
-  //         setUsername(resText)
-  //       }
-  //     });
-  // }, []);
-
-  // Submit form function
-  const handleSubmit = () => {
+  useEffect(() => {
     fetch(`${serverUrl}/get_current_user`, {
       method: "GET",
       credentials: 'include',
@@ -55,18 +40,20 @@ const Form = () => {
       .then((resText) => {
         console.log(resText)
         if (resText) {
-          console.log("wow")
-          setUsername(resText)
-        }
-        else {
-          console.log('no res')
-          setUsername("test_user")
+          console.log("Current User: ", resText)
+        } else {
+          // redirect to login
+          navigate("/")
         }
       });
+  }, []);
+
+  // Submit form function
+  const handleSubmit = () => {
     if (answer1.length === 0 | answer2.length === 0 | answer3.length === 0 | answer4.length === 0) {
       toast.error("Please answer all the questions")
     } else {
-      fetch(`${serverUrl}/update_answer?username=ey&answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
+      fetch(`${serverUrl}/update_answer?answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
         method: "POST",
         credentials: 'include'
       }).then((data) => {
@@ -88,11 +75,6 @@ const Form = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
-          {/* <img
-            className="m-auto text-center text-light"
-            src={"https://w7.pngwing.com/pngs/773/201/png-transparent-airplane-aircraft-flight-logo-airplane-blue-logo-flight-thumbnail.png"}
-            width="25"
-          ></img> */}
         </div>
         <div className="text-center mb-4 text-xl">Survey Questions: </div>
         <hr

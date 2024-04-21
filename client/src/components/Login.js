@@ -38,7 +38,7 @@ const Login = () => {
       }).then((data) => {
         if (data.status === 201) {
           toast.success("Logged in!")
-          navigate("/domestic");
+          navigate("/form");
         } else {
           toast.error("Username or password is incorrect")
         }
@@ -54,11 +54,6 @@ const Login = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
-          {/* <img
-            className="m-auto text-center text-light"
-            src={"https://w7.pngwing.com/pngs/773/201/png-transparent-airplane-aircraft-flight-logo-airplane-blue-logo-flight-thumbnail.png"}
-            width="25"
-          ></img> */}
         </div>
         <div className="text-center mb-4 text-4xl font-semibold">Moder Patshala </div>
         <div className="text-center mb-4 text-m">Guiding Students and Parents to a Brighter Future Since 2004</div>

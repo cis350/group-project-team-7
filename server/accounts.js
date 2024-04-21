@@ -137,9 +137,9 @@ const createAnswers = async (req, res) => {
   const db = await getDB();
   const username = req.session.username ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
-  const answer2 = req.query?.answer1 ?? undefined;
-  const answer3 = req.query?.answer1 ?? undefined;
-  const answer4 = req.query?.answer1 ?? undefined;
+  const answer2 = req.query?.answer2 ?? undefined;
+  const answer3 = req.query?.answer3 ?? undefined;
+  const answer4 = req.query?.answer4 ?? undefined;
 
   const newAnswer = {
     username: username,
