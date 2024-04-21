@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import toast from 'react-hot-toast';
 
-// const serverHost = process.env.REACT_APP_SERVER_HOST;
-// const serverPort = process.env.REACT_APP_SERVER_PORT;
+
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 const Form = () => {
@@ -33,7 +32,22 @@ const Form = () => {
     "I feel like I don't belong at all"
   ];
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   fetch(`${serverUrl}/get_current_user`, {
+  //     method: "GET",
+  //     credentials: 'include',
+  //   }).then((res) => res.text())
+  //     .then((resText) => {
+  //       console.log(resText)
+  //       if (resText) {
+  //         console.log("wow")
+  //         setUsername(resText)
+  //       }
+  //     });
+  // }, []);
+
+  // Submit form function
+  const handleSubmit = () => {
     fetch(`${serverUrl}/get_current_user`, {
       method: "GET",
       credentials: 'include',
@@ -42,16 +56,17 @@ const Form = () => {
         console.log(resText)
         if (resText) {
           console.log("wow")
+          setUsername(resText)
+        }
+        else {
+          console.log('no res')
+          setUsername("test_user")
         }
       });
-  }, []);
-
-  // Submit form function
-  const handleSubmit = () => {
     if (answer1.length === 0 | answer2.length === 0 | answer3.length === 0 | answer4.length === 0) {
       toast.error("Please answer all the questions")
     } else {
-      fetch(`${serverUrl}/submit_form?username=${username}&answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
+      fetch(`${serverUrl}/update_answer?username=${username}&answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
         method: "POST",
         credentials: 'include'
       }).then((data) => {
@@ -81,80 +96,80 @@ const Form = () => {
         </div>
         <div className="text-center mb-4 text-xl">Survey Questions: </div>
         <hr
-            style={{
-                color: "black",
-                backgroundColor: "gray",
-                height: 2,
-                width: 550,
-                margin: "auto",
-                marginBottom: "20px",
-            }}
+          style={{
+            color: "black",
+            backgroundColor: "gray",
+            height: 2,
+            width: 550,
+            margin: "auto",
+            marginBottom: "20px",
+          }}
         />
         <div className="mx-auto w-fit">
-            <p className="m-auto text-left text-m">
-                {"How helpful was today's tutoring session for you?"}
-            </p>
+          <p className="m-auto text-left text-m">
+            {"How helpful was today's tutoring session for you?"}
+          </p>
           <div>
             <select
-                id={"select1"}
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                color="primary"
-                variant="outlined"
-                onChange={(choice) => {
-                    setAnswer1(choice.target.value);
-                }}
+              id={"select1"}
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              color="primary"
+              variant="outlined"
+              onChange={(choice) => {
+                setAnswer1(choice.target.value);
+              }}
             >
-                <option value="">Answer:</option>
-                {helpOptions.map((answer) => (
-                    <option value={answer}>{answer}</option>
-                ))}
+              <option value="">Answer:</option>
+              {helpOptions.map((answer) => (
+                <option value={answer}>{answer}</option>
+              ))}
             </select>
           </div>
           <div className="mt-2">
             <p className="m-auto text-left text-m">
-                {"How comfortable did you feel asking questions or expressing confusion during the session?"}
+              {"How comfortable did you feel asking questions or expressing confusion during the session?"}
             </p>
             <div>
-                <select
-                    id={"select2"}
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    color="primary"
-                    variant="outlined"
-                    onChange={(choice) => {
-                        setAnswer2(choice.target.value);
-                    }}
-                >
-                    <option value="">Answer:</option>
-                    {helpOptions.map((answer) => (
-                        <option value={answer}>{answer}</option>
-                    ))}
-                </select>
+              <select
+                id={"select2"}
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                color="primary"
+                variant="outlined"
+                onChange={(choice) => {
+                  setAnswer2(choice.target.value);
+                }}
+              >
+                <option value="">Answer:</option>
+                {helpOptions.map((answer) => (
+                  <option value={answer}>{answer}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="mt-2">
             <p className="m-auto text-left text-m">
-                {"How much do you feel like you belong at Moder Patshala?"}
+              {"How much do you feel like you belong at Moder Patshala?"}
             </p>
             <div>
-                <select
-                    id={"select3"}
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    color="primary"
-                    variant="outlined"
-                    onChange={(choice) => {
-                        setAnswer3(choice.target.value);
-                    }}
-                >
-                    <option value="">Answer:</option>
-                    {belongOptions.map((answer) => (
-                        <option value={answer}>{answer}</option>
-                    ))}
-                </select>
+              <select
+                id={"select3"}
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                color="primary"
+                variant="outlined"
+                onChange={(choice) => {
+                  setAnswer3(choice.target.value);
+                }}
+              >
+                <option value="">Answer:</option>
+                {belongOptions.map((answer) => (
+                  <option value={answer}>{answer}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="mt-2">
             <p className="m-auto text-left text-m">
-                {"Any other feedback? "}
+              {"Any other feedback? "}
             </p>
             <TextField
               className="w-[24vw]"
