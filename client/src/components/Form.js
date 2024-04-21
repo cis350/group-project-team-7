@@ -96,14 +96,13 @@ const Form = () => {
               id={"select1"}
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               color="primary"
-              variant="outlined"
               onChange={(choice) => {
                 setAnswer1(choice.target.value);
               }}
             >
               <option value="">Answer:</option>
-              {helpOptions.map((answer) => (
-                <option value={answer}>{answer}</option>
+              {helpOptions.map(answer => (
+                <option value={answer} key={answer}>{answer}</option>
               ))}
             </select>
           </div>
@@ -116,14 +115,13 @@ const Form = () => {
                 id={"select2"}
                 className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 color="primary"
-                variant="outlined"
                 onChange={(choice) => {
                   setAnswer2(choice.target.value);
                 }}
               >
                 <option value="">Answer:</option>
                 {helpOptions.map((answer) => (
-                  <option value={answer}>{answer}</option>
+                  <option value={answer} key={answer}>{answer}</option>
                 ))}
               </select>
             </div>
@@ -137,14 +135,13 @@ const Form = () => {
                 id={"select3"}
                 className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 color="primary"
-                variant="outlined"
                 onChange={(choice) => {
                   setAnswer3(choice.target.value);
                 }}
               >
                 <option value="">Answer:</option>
                 {belongOptions.map((answer) => (
-                  <option value={answer}>{answer}</option>
+                  <option value={answer} key={answer}>{answer}</option>
                 ))}
               </select>
             </div>
