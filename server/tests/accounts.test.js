@@ -134,95 +134,40 @@ describe('Accounts.js tests', () => {
     });
   });
 
-  describe('Update Answer 1', () => {
-    test('should return 201 if user exists', async () => {
-      // create a user
-      await db.collection('users').insertOne({ username: 'user', password: 'password' });
-
+  describe('Update Answers', () => {
+    test('should return 201 if new answer entry is created successfully', async () => {
       const response = await request(app)
-        .post('/update_answer1')
-        .query({ username: 'user', answer1: 'answer1' });
+        .post('/updateAnswers')
+        .send({
+          username: 'testUser',
+          answer1: 'answer1',
+          answer2: 'answer2',
+          answer3: 'answer3',
+          answer4: 'answer4',
+        });
 
-      expect(response.statusCode).toBe(201);
-      expect(response.text).toBe('Answer 1 updated');
+      expect(response.status).toBe(201);
+      expect(response.text).toBe('New answer entry created');
     });
 
-    test('should return 400 if user does not exist', async () => {
-      const response = await request(app)
-        .post('/update_answer1')
-        .query({ username: 'user', answer1: 'answer1' });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.text).toBe('User does not exist');
-    });
-  });
-
-  describe('Update Answer 2', () => {
-    test('should return 201 if user exists', async () => {
-      // create a user
-      await db.collection('users').insertOne({ username: 'user', password: 'password' });
+    test('should return 400 if answer entry creation fails', async () => {
+      // Mock getDB to throw an error
+      jest.spyOn(require('../path/to/your/module'), 'getDB').mockImplementation(() => {
+        throw new Error('Database error');
+      });
 
       const response = await request(app)
-        .post('/update_answer2')
-        .query({ username: 'user', answer2: 'answer2' });
+        .post('/updateAnswers')
+        .send({
+          username: 'testUser',
+          answer1: 'answer1',
+          answer2: 'answer2',
+          answer3: 'answer3',
+          answer4: 'answer4',
+        });
 
-      expect(response.statusCode).toBe(201);
-      expect(response.text).toBe('Answer 2 updated');
-    });
-
-    test('should return 400 if user does not exist', async () => {
-      const response = await request(app)
-        .post('/update_answer2')
-        .query({ username: 'user', answer2: 'answer2' });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.text).toBe('User does not exist');
-    });
-  });
-
-  describe('Update Answer 3', () => {
-    test('should return 201 if user exists', async () => {
-      // create a user
-      await db.collection('users').insertOne({ username: 'user', password: 'password' });
-
-      const response = await request(app)
-        .post('/update_answer3')
-        .query({ username: 'user', answer3: 'answer3' });
-
-      expect(response.statusCode).toBe(201);
-      expect(response.text).toBe('Answer 3 updated');
-    });
-
-    test('should return 400 if user does not exist', async () => {
-      const response = await request(app)
-        .post('/update_answer3')
-        .query({ username: 'user', answer3: 'answer3' });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.text).toBe('User does not exist');
-    });
-  });
-
-  describe('Update Answer 4', () => {
-    test('should return 201 if user exists', async () => {
-      // create a user
-      await db.collection('users').insertOne({ username: 'user', password: 'password' });
-
-      const response = await request(app)
-        .post('/update_answer4')
-        .query({ username: 'user', answer4: 'answer4' });
-
-      expect(response.statusCode).toBe(201);
-      expect(response.text).toBe('Answer 4 updated');
-    });
-
-    test('should return 400 if user does not exist', async () => {
-      const response = await request(app)
-        .post('/update_answer4')
-        .query({ username: 'user', answer4: 'answer4' });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.text).toBe('User does not exist');
+      expect(response.status).toBe(400);
+      expect(response.text).toBe('Failed to create answer entry');
     });
   });
 
