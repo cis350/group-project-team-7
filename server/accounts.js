@@ -150,12 +150,7 @@ const createAnswers = async (req, res) => {
   };
 
   const result = await db.collection('answers').insertOne(newAnswer);
-
-  if (result.insertedCount === 1) {
-    res.status(201).send('New answer entry created');
-  } else {
-    res.status(400).send('Failed to create answer entry');
-  }
+  res.status(201).send(result.insertedId);
 };
 
 
