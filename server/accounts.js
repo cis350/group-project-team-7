@@ -135,7 +135,7 @@ const logoutAccount = async (req, res) => {
 
 const createAnswers = async (req, res) => {
   const db = await getDB();
-  const username = req.query?.username ?? undefined;
+  const username = req.session.username ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
   const answer2 = req.query?.answer1 ?? undefined;
   const answer3 = req.query?.answer1 ?? undefined;
