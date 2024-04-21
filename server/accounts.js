@@ -135,6 +135,58 @@ const logoutAccount = async (req, res) => {
   res.send('Logged out');
 };
 
+const updateAnswer1 = async (req, res) => {
+  const db = await getDB();
+  const username = req.query?.username ?? undefined;
+  const answer1 = req.query?.answer1 ?? undefined;
+
+  const exists = await db.collection('users').updateOne({ username: username }, { $set: { answer1: answer1 } })
+  if (exists.modifiedCount > 0) {
+    res.status(201).send('Answer 1 updated')
+  } else {
+    res.status(400).send('User does not exist');
+  }
+}
+
+const updateAnswer2 = async (req, res) => {
+  const db = await getDB();
+  const username = req.query?.username ?? undefined;
+  const answer2 = req.query?.answer2 ?? undefined;
+
+  const exists = await db.collection('users').updateOne({ username: username }, { $set: { answer2: answer2 } })
+  if (exists.modifiedCount > 0) {
+    res.status(201).send('Answer 2 updated')
+  } else {
+    res.status(400).send('User does not exist');
+  }
+}
+
+const updateAnswer3 = async (req, res) => {
+  const db = await getDB();
+  const username = req.query?.username ?? undefined;
+  const answer3 = req.query?.answer3 ?? undefined;
+
+  const exists = await db.collection('users').updateOne({ username: username }, { $set: { answer3: answer3 } })
+  if (exists.modifiedCount > 0) {
+    res.status(201).send('Answer 3 updated')
+  } else {
+    res.status(400).send('User does not exist');
+  }
+}
+
+const updateAnswer4 = async (req, res) => {
+  const db = await getDB();
+  const username = req.query?.username ?? undefined;
+  const answer4 = req.query?.answer4 ?? undefined;
+
+  const exists = await db.collection('users').updateOne({ username: username }, { $set: { answer4: answer4 } })
+  if (exists.modifiedCount > 0) {
+    res.status(201).send('Answer 4 updated')
+  } else {
+    res.status(400).send('User does not exist');
+  }
+}
+
 module.exports = {
   closeMongoDBConnection,
   getDB,

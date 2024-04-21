@@ -30,7 +30,7 @@ describe('Accounts.js tests', () => {
 
   afterAll((done) => {
     server.close(done);  // This tells Jest to wait for the server to close before finishing the tests
-  });  
+  });
 
   beforeEach(async () => {
     await db.collection('users').deleteMany({});
@@ -66,14 +66,14 @@ describe('Accounts.js tests', () => {
         .post('/login')
         .query({ username: 'user', password: 'password' });
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual({ id: 'user_id', username: 'user'});
+      expect(response.body).toEqual({ id: 'user_id', username: 'user' });
     });
 
     test('should return 400 if username does not exist', async () => {
       const response = await request(app)
         .post('/login')
         .query({ username: 'user', password: 'password' });
-      
+
       expect(response.statusCode).toBe(401);
       expect(response.text).toBe('Invalid credentials');
     });
@@ -119,7 +119,7 @@ describe('Accounts.js tests', () => {
       const response = await request(app)
         .post('/update_profile_picture')
         .query({ username: 'user', profilePicture: 'new_profile_picture_url' });
-      
+
       expect(response.statusCode).toBe(201);
       expect(response.text).toBe('Profile picture updated');
     });
@@ -133,5 +133,101 @@ describe('Accounts.js tests', () => {
       expect(response.text).toBe('User does not exist');
     });
   });
-  
+
+  describe('Update Answer 1', () => {
+    test('should return 201 if user exists', async () => {
+      // create a user
+      await db.collection('users').insertOne({ username: 'user', password: 'password' });
+
+      const response = await request(app)
+        .post('/update_answer1')
+        .query({ username: 'user', answer1: 'answer1' });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.text).toBe('Answer 1 updated');
+    });
+
+    test('should return 400 if user does not exist', async () => {
+      const response = await request(app)
+        .post('/update_answer1')
+        .query({ username: 'user', answer1: 'answer1' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.text).toBe('User does not exist');
+    });
+  });
+
+  describe('Update Answer 2', () => {
+    test('should return 201 if user exists', async () => {
+      // create a user
+      await db.collection('users').insertOne({ username: 'user', password: 'password' });
+
+      const response = await request(app)
+        .post('/update_answer2')
+        .query({ username: 'user', answer2: 'answer2' });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.text).toBe('Answer 2 updated');
+    });
+
+    test('should return 400 if user does not exist', async () => {
+      const response = await request(app)
+        .post('/update_answer2')
+        .query({ username: 'user', answer2: 'answer2' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.text).toBe('User does not exist');
+    });
+  });
+
+  describe('Update Answer 3', () => {
+    test('should return 201 if user exists', async () => {
+      // create a user
+      await db.collection('users').insertOne({ username: 'user', password: 'password' });
+
+      const response = await request(app)
+        .post('/update_answer3')
+        .query({ username: 'user', answer3: 'answer3' });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.text).toBe('Answer 3 updated');
+    });
+
+    test('should return 400 if user does not exist', async () => {
+      const response = await request(app)
+        .post('/update_answer3')
+        .query({ username: 'user', answer3: 'answer3' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.text).toBe('User does not exist');
+    });
+  });
+
+  describe('Update Answer 4', () => {
+    test('should return 201 if user exists', async () => {
+      // create a user
+      await db.collection('users').insertOne({ username: 'user', password: 'password' });
+
+      const response = await request(app)
+        .post('/update_answer4')
+        .query({ username: 'user', answer4: 'answer4' });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.text).toBe('Answer 4 updated');
+    });
+
+    test('should return 400 if user does not exist', async () => {
+      const response = await request(app)
+        .post('/update_answer4')
+        .query({ username: 'user', answer4: 'answer4' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.text).toBe('User does not exist');
+    });
+  });
+
+
+
+
+
 });
