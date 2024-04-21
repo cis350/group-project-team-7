@@ -66,7 +66,7 @@ const Form = () => {
     if (answer1.length === 0 | answer2.length === 0 | answer3.length === 0 | answer4.length === 0) {
       toast.error("Please answer all the questions")
     } else {
-      fetch(`${serverUrl}/update_answer?username=${username}&answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
+      fetch(`${serverUrl}/update_answer?username=ey&answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
         method: "POST",
         credentials: 'include'
       }).then((data) => {
