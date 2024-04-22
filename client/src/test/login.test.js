@@ -1,52 +1,58 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Login from './Login';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import Login from '../components/Login';
 
-// Mock server response for the login functionality
-const server = setupServer(
-  rest.post(`${process.env.REACT_APP_SERVER_URL}/login`, (req, res, ctx) => {
-    return res(ctx.json({ status: 201 }));
-  })
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
-test('renders login inputs and a button', () => {
-  render(<Router><Login /></Router>);
-  
-  // Check for input fields
-  expect(screen.getByLabelText(/Username/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
-
-  // Check for the login button
-  expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument();
+test('should match the snapshot', () => {
+    /**
+     * Renders the Login component within a Router and returns the rendered component's fragment.
+     * @returns {ReactTestRendererJSON} The fragment of the rendered Login component.
+     */
+    const { asFragment } = render(
+      <Router>
+        <Login />
+      </Router>
+    );
+    expect(asFragment()).toMatchSnapshot();
 });
 
+test('username input box is in the document', () => {
+    render(
+    <Router>
+        <Login />
+    </Router>
+    );
+    const usernameInput = screen.getByLabelText(/username/i);
+    expect(usernameInput).toBeInTheDocument();
+});
 
+test('password input box is in the document', () => {
+    render(
+    <Router>
+        <Login />
+    </Router>
+    );
+    const passwordInput = screen.getByLabelText(/password/i);
+    expect(passwordInput).toBeInTheDocument();
+});
 
-// import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-// import { BrowserRouter } from 'react-router-dom';
-// import Login from '../components/Login';
-// import App from '../App.js'
+test('continue button is in the document', () => {
+    render(
+    <Router>
+        <Login />
+    </Router>
+    );
+    const continueButton = screen.getByRole('button', { name: /continue/i });
+    expect(continueButton).toBeInTheDocument();
+});
 
-// test('render login page', async () => {
-//   render(
-//       <BrowserRouter>
-//         <Login />
-//       </BrowserRouter>
-//   );
-
-//   const loginText = await screen.findByText(/login/i);
-//   expect(loginText).toBeInTheDocument();
-
-
-//   // Get sign-up link
-//   // const signupLinkElement = screen.getByText(/Sign up/i);
-  
-//   // expect(signupLinkElement).toBeInTheDocument();
-// })
+test('the sign-up link is in the document', () => {
+    render(
+      <Router>
+        <Login />
+      </Router>
+    );
+    const signUpLink = screen.getByRole('link', { name: /sign up/i });
+    expect(signUpLink).toBeInTheDocument();
+    expect(signUpLink).toHaveAttribute('href', '/signup');
+});  
