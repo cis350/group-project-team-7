@@ -70,6 +70,7 @@ const Signup = () => {
               label="Username"
               defaultValue=""
               onChange={(e) => setUsername(e.target.value)}
+              data-testid = 'username-input'
             />
           </div>
           <div className="mt-2">
@@ -81,6 +82,7 @@ const Signup = () => {
               label="Password"
               defaultValue=""
               onChange={(e) => setPassword(e.target.value)}
+              data-testid = 'password-input'
             />
           </div>
         </div>

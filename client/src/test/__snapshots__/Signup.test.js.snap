@@ -21,6 +21,7 @@ exports[`Signup Component should match the snapshot 1`] = `
       <div>
         <div
           class="MuiFormControl-root MuiTextField-root w-[24vw] css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          data-testid="username-input"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
@@ -60,6 +61,7 @@ exports[`Signup Component should match the snapshot 1`] = `
       >
         <div
           class="MuiFormControl-root MuiTextField-root w-[24vw] css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          data-testid="password-input"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"

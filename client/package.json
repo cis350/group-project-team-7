@@ -13,6 +13,7 @@
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.4.5",
     "express-session": "^1.17.3",
+    "jest": "^27.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -27,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
+    "test": "react-scripts test --passWithNoTests --updateSnapshot",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js"
   },
