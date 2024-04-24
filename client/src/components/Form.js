@@ -71,11 +71,6 @@ const Form = () => {
   return (
     <>
       <div style={{ height: "100vh", padding: "5vh" }} className="w-100">
-        <div
-          style={{ marginBottom: "12vh" }}
-          className="d-flex justify-content-center"
-        >
-        </div>
         <div className="text-center mb-4 text-xl">Survey Questions: </div>
         <hr
           style={{
@@ -88,30 +83,31 @@ const Form = () => {
           }}
         />
         <div className="mx-auto w-fit">
-          <p className="m-auto text-left text-m">
-            {"How helpful was today's tutoring session for you?"}
-          </p>
-          <div>
-            <select
-              id={"select1"}
-              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              color="primary"
-              variant="outlined"
-              onChange={(choice) => {
-                setAnswer1(choice.target.value);
-              }}
-            >
-              <option value="">Answer:</option>
-              {helpOptions.map((answer) => (
-                <option value={answer}>{answer}</option>
-              ))}
-            </select>
-          </div>
-          <div className="mt-2">
-            <p className="m-auto text-left text-m">
-              {"How comfortable did you feel asking questions or expressing confusion during the session?"}
-            </p>
+          <div className="grid grid-cols-4 gap-4">
+            <div></div>
             <div>
+              <p className="text-left text-m mb-8">
+                {"How helpful was today's tutoring session for you?"}
+              </p>
+              <select
+                id={"select1"}
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                color="primary"
+                variant="outlined"
+                onChange={(choice) => {
+                  setAnswer1(choice.target.value);
+                }}
+              >
+                <option value="">Answer:</option>
+                {helpOptions.map((answer, index) => (
+                  <option key={index} value={answer}>{answer}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <p className="text-left text-m mb-2">
+                {"How comfortable did you feel asking questions or expressing confusion during the session?"}
+              </p>
               <select
                 id={"select2"}
                 className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -122,17 +118,17 @@ const Form = () => {
                 }}
               >
                 <option value="">Answer:</option>
-                {helpOptions.map((answer) => (
-                  <option value={answer}>{answer}</option>
+                {helpOptions.map((answer, index) => (
+                  <option key={index} value={answer}>{answer}</option>
                 ))}
               </select>
             </div>
-          </div>
-          <div className="mt-2">
-            <p className="m-auto text-left text-m">
-              {"How much do you feel like you belong at Moder Patshala?"}
-            </p>
+            <div></div>
+            <div></div>
             <div>
+              <p className="text-left text-m mb-2">
+                {"How much do you feel like you belong at Moder Patshala?"}
+              </p>
               <select
                 id={"select3"}
                 className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -143,31 +139,33 @@ const Form = () => {
                 }}
               >
                 <option value="">Answer:</option>
-                {belongOptions.map((answer) => (
-                  <option value={answer}>{answer}</option>
+                {belongOptions.map((answer, index) => (
+                  <option key={index} value={answer}>{answer}</option>
                 ))}
               </select>
             </div>
-          </div>
-          <div className="mt-2">
-            <p className="m-auto text-left text-m">
-              {"Any other feedback? "}
-            </p>
-            <TextField
-              className="w-[24vw]"
-              color="primary"
-              id="outlined-required"
-              variant="outlined"
-              defaultValue=""
-              onChange={(e) => setAnswer4(e.target.value)}
-            />
+            <div>
+              <p className="text-left text-m mb-4">
+                {"Any other feedback? "}
+              </p>
+              <TextField
+                className="w-full"
+                color="primary"
+                id="outlined-required"
+                variant="outlined"
+                defaultValue=""
+                onChange={(e) => setAnswer4(e.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <div className="m-auto text-center mb-3">
+        <div className="text-center mt-6">
           <button
             type="button"
-            onClick={() => handleSubmit()}
-            className="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            onClick={handleSubmit}
+            className="text-white bg-lime-900 hover:bg-lime-950 hover:scale-100 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none"
+            style={{ transform: 'scale(0.9)' }}
+          >
             Submit
           </button>
         </div>
