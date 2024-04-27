@@ -43,7 +43,7 @@ const Form = () => {
           console.log("Current User: ", resText)
         } else {
           // redirect to login
-          navigate("/")
+          // navigate("/")
         }
       });
   }, []);
