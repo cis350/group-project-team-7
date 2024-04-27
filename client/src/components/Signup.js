@@ -58,6 +58,7 @@ const Signup = () => {
         <div className="mx-auto w-fit">
           <div>
             <TextField
+              name="Username"
               className="w-[24vw]"
               color="primary"
               id="outlined-required"
@@ -70,6 +71,7 @@ const Signup = () => {
           </div>
           <div className="mt-2">
             <TextField
+              name="Password"
               className="w-[24vw]"
               color="primary"
               id="outlined-required"

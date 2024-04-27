@@ -41,7 +41,12 @@ const loginAccount = async (req, res) => {
     //Check password
     if (exists.password === password) {
       req.session.username = username;
-      req.session.save();
+      req.session.save(err => {
+        if (err) {
+          return res.status(500).send('Session save failed.');
+        }
+        res.redirect('/form');
+      });
       res.status(201).send(exists);
     } else {
       res.status(400).send('Incorrect password');

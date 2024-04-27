@@ -39,14 +39,17 @@ const Form = () => {
     fetch(`${serverUrl}/get_current_user`, {
       method: "GET",
       credentials: 'include',
-    }).then((res) => res.text())
+    }).then((res) => {
+      console.log("Current User: ", res);
+      res.text()
+    })
       .then((resText) => {
         console.log(resText)
         if (resText) {
           console.log("Current User: ", resText)
         } else {
           // redirect to login
-          navigate("/")
+          // navigate("/")
         }
       });
   }, []);
