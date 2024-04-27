@@ -68,6 +68,16 @@ const Form = () => {
     }
   };
 
+  // Logout function
+  const handleLogout = () => {
+    fetch(`${serverUrl}/logout`, {
+    method: "POST",
+    credentials: 'include'
+    }).then((data) => {
+        navigate("/login");
+    });
+  };
+
   return (
     <>
       <div style={{ height: "100vh", padding: "5vh" }} className="w-100">
@@ -75,6 +85,14 @@ const Form = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
+        </div>
+        <div className="m-auto text-right mb-3">
+          <button
+            type="button"
+            onClick={() => handleLogout()}
+            className="text-white w-[10vw] bg-red-800 mt-4 hover:bg-red-900 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            Logout
+          </button>
         </div>
         <div className="text-center mb-4 text-xl">Survey Questions: </div>
         <hr
