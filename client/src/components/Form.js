@@ -6,8 +6,10 @@ import toast from 'react-hot-toast';
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+/**
+ * Form component
+ */
 const Form = () => {
-//   const [username, setUsername] = useState("");
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
@@ -32,6 +34,7 @@ const Form = () => {
     "I feel like I don't belong at all"
   ];
 
+  // check if user is logged in
   useEffect(() => {
     fetch(`${serverUrl}/get_current_user`, {
       method: "GET",
@@ -53,8 +56,8 @@ const Form = () => {
 
   // Submit form function
   const handleSubmit = () => {
-    if (answer1.length === 0 | answer2.length === 0 | answer3.length === 0 | answer4.length === 0) {
-      toast.error("Please answer all the questions")
+    if (answer1.length === 0 | answer2.length === 0 | answer3.length === 0) {
+      toast.error("Please answer all mandatory questions")
     } else {
       fetch(`${serverUrl}/update_answer?answer1=${answer1}&answer2=${answer2}&answer3=${answer3}&answer4=${answer4}`, {
         method: "POST",
@@ -71,6 +74,16 @@ const Form = () => {
     }
   };
 
+  // Logout function
+  const handleLogout = () => {
+    fetch(`${serverUrl}/logout`, {
+    method: "POST",
+    credentials: 'include'
+    }).then(() => {
+        navigate("/login");
+    });
+  };
+
   return (
     <>
       <div style={{ height: "100vh", padding: "5vh" }} className="w-100">
@@ -78,6 +91,14 @@ const Form = () => {
           style={{ marginBottom: "12vh" }}
           className="d-flex justify-content-center"
         >
+        </div>
+        <div className="m-auto text-right mb-3">
+          <button
+            type="button"
+            onClick={() => handleLogout()}
+            className="text-white w-[10vw] bg-red-800 mt-4 hover:bg-red-900 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            Logout
+          </button>
         </div>
         <div className="text-center mb-4 text-xl">Survey Questions: </div>
         <hr
@@ -92,12 +113,12 @@ const Form = () => {
         />
         <div className="mx-auto w-fit">
           <p className="m-auto text-left text-m">
-            {"How helpful was today's tutoring session for you?"}
+            {"How helpful was today's tutoring session for you?*"}
           </p>
           <div>
             <select
               id={"select1"}
-              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="appearance-none peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               color="primary"
               onChange={(choice) => {
                 setAnswer1(choice.target.value);
@@ -111,12 +132,12 @@ const Form = () => {
           </div>
           <div className="mt-2">
             <p className="m-auto text-left text-m">
-              {"How comfortable did you feel asking questions or expressing confusion during the session?"}
+              {"How comfortable did you feel asking questions or expressing confusion during the session?*"}
             </p>
             <div>
               <select
                 id={"select2"}
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="appearance-none peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                 color="primary"
                 onChange={(choice) => {
                   setAnswer2(choice.target.value);
@@ -131,12 +152,12 @@ const Form = () => {
           </div>
           <div className="mt-2">
             <p className="m-auto text-left text-m">
-              {"How much do you feel like you belong at Moder Patshala?"}
+              {"How much do you feel like you belong at Moder Patshala?*"}
             </p>
             <div>
               <select
                 id={"select3"}
-                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="appearance-none peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                 color="primary"
                 onChange={(choice) => {
                   setAnswer3(choice.target.value);
@@ -154,7 +175,7 @@ const Form = () => {
               {"Any other feedback? "}
             </p>
             <TextField
-              className="w-[24vw]"
+              className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               color="primary"
               id="outlined-required"
               variant="outlined"

@@ -1,62 +1,12 @@
-const { ObjectId } = require('mongodb');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-
-
-// the mongodb server URL
-// const dbURL = "mongodb://localhost:27017/users";
-
-const uri = "mongodb+srv://lionness267:k9xjz57yzuZWIrun@cluster0.yze8rsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+// import mongo from database.js
+const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser } = require('./database');
 
 /**
- * MongoDB database connection
- * It will be exported so we can close the connection
- * after running our tests
+ * Create a new account
+ * @param {Request} req
+ * @param {Response} res
  */
-let MongoConnection;
-// connection to the db
-const connect = async () => {
-  // always use try/catch to handle any exception
-  try {
-    MongoConnection = (await MongoClient.connect(
-      uri,
-      { useNewUrlParser: true, useUnifiedTopology: true },
-    )); // we return the entire connection, not just the DB
-    console.log(`connected to db: ${MongoConnection.db().databaseName}`);
-    return MongoConnection;
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-/**
- *
- * @returns the database attached to this MongoDB connection
- */
-const getDB = async () => {
-  // test if there is an active connection
-  if (!MongoConnection) {
-    await connect();
-  }
-  return MongoConnection.db();
-};
-
-/**
- *
- * Close the mongodb connection
- */
-const closeMongoDBConnection = async () => {
-  await MongoConnection.close();
-};
-
 const signupAccount = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
@@ -66,23 +16,27 @@ const signupAccount = async (req, res) => {
     profilePicture: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
   };
 
-  const exists = await db.collection('users').findOne({ username: username });
+  const exists = await getUserInfoDb(username);
   if (exists) {
     res.status(400).send('Username already exists');
   } else {
-    const result = await db.collection('users').insertOne(newUser);
+    const result = await addUser(newUser);
     req.session.username = username;
     req.session.save();
     res.status(201).send(result.insertedId);
   }
 };
 
+/**
+ * Login to an existing account
+ * @param {Request} req
+ * @param {Response} res
+ */
 const loginAccount = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
-  const exists = await db.collection('users').findOne({ username: username });
+  const exists = await getUserInfoDb(username);
   if (exists) {
     //Check password
     if (exists.password === password) {
@@ -102,44 +56,64 @@ const loginAccount = async (req, res) => {
   }
 };
 
-const updateProfilePicture = async (req, res) => {
-  const db = await getDB();
-  const username = req.query?.username ?? undefined;
-  const profilePicture = req.query?.profilePicture ?? undefined;
+/**
+ * Update profile picture
+ * @param {Request} req
+ * @param {Response} res
+ */
+// const updateProfilePicture = async (req, res) => {
+//   const db = await getDB();
+//   const username = req.query?.username ?? undefined;
+//   const profilePicture = req.query?.profilePicture ?? undefined;
 
-  const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
-  if (exists) {
-    res.status(201).send('Profile picture updated')
-  } else {
-    res.status(400).send('User does not exist')
-  }
-};
+//   const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
+//   if (exists) {
+//     res.status(201).send('Profile picture updated')
+//   } else {
+//     res.status(400).send('User does not exist')
+//   }
+// };
 
-
+/**
+ * Get user information
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getUserInfo = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
-
-  const exists = await db.collection('users').findOne({ username: username });
-  if (exists) {
-    res.status(200).send(exists)
-  } else {
-    res.status(400).send('User does not exist')
-  }
+  getUserInfoDb(username).then((data) => {
+    if (data) {
+        res.status(200).send(data)
+      } else {
+        res.status(400).send('User does not exist')
+      }
+  });
 };
 
+/**
+ * Get current user
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getCurrentUser = async (req, res) => {
   const username = req.session.username ?? "";
   res.send(username);
 }
 
+/**
+ * Logout of current account and destoys session
+ */
 const logoutAccount = async (req, res) => {
   req.session.destroy();
   res.send('Logged out');
 }
 
+/**
+ * Given answers to the form, creates a new answer and adds it to the database
+ * @param {Request} req
+ * @param {Response} res
+ */
 const createAnswers = async (req, res) => {
-  const db = await getDB();
   const username = req.session.username ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
   const answer2 = req.query?.answer2 ?? undefined;
@@ -153,9 +127,9 @@ const createAnswers = async (req, res) => {
     answer3: answer3,
     answer4: answer4,
   };
-
-  const result = await db.collection('answers').insertOne(newAnswer);
-  res.status(201).send(result.insertedId);
+  // ask database module to add to the database
+  const insId = await addAnswer(newAnswer);
+  res.status(201).send(insId);
 };
 
 
@@ -169,6 +143,6 @@ module.exports = {
   loginAccount,
   logoutAccount,
   getUserInfo,
-  updateProfilePicture,
+//   updateProfilePicture,
   createAnswers
 };

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import toast from 'react-hot-toast';
 
-// const serverHost = process.env.REACT_APP_SERVER_HOST;
-// const serverPort = process.env.REACT_APP_SERVER_PORT;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 console.log("serverUrl", serverUrl);
 
-
+/**
+ * Signup component
+ */
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -66,6 +66,7 @@ const Signup = () => {
               label="Username"
               defaultValue=""
               onChange={(e) => setUsername(e.target.value)}
+              data-testid = 'username-input'
             />
           </div>
           <div className="mt-2">
@@ -78,6 +79,7 @@ const Signup = () => {
               label="Password"
               defaultValue=""
               onChange={(e) => setPassword(e.target.value)}
+              data-testid = 'password-input'
             />
           </div>
         </div>
