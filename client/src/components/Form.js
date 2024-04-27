@@ -65,7 +65,12 @@ const Form = () => {
       }).then((data) => {
         if (data.status === 201) {
           toast.success("Submitted Form!")
-          navigate("/form");
+          // clear answer fields
+          document.getElementById("select1").selectedIndex = 0;
+          document.getElementById("select2").selectedIndex = 0;
+          document.getElementById("select3").selectedIndex = 0;
+          // clear the answer box as well
+          document.getElementById("outlined-required").value = "";
         } else {
           toast.error("Server Error")
         }
