@@ -34,14 +34,6 @@ app.use(express.json({
   type: ['application/json', 'text/plain'],
 }));
 
-app.use(session({
-  secret: 'secretKey',
-  resave: false,
-  saveUninitialized: false,
-  store: store,
-  cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 } // 1 day
-}));
-
 
 // Each of our endpoints used to query our database
 app.post('/signup', accounts.signupAccount);
