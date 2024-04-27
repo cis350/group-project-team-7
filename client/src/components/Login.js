@@ -73,6 +73,7 @@ const Login = () => {
         <div className="mx-auto w-fit">
           <div>
             <TextField
+              name="Username"
               className="w-[24vw]"
               color="primary"
               id="outlined-required"
@@ -80,10 +81,12 @@ const Login = () => {
               label="Username"
               defaultValue=""
               onChange={(e) => setUsername(e.target.value)}
+              data-testid = 'username-input'
             />
           </div>
           <div className="mt-2">
             <TextField
+              name="Password"
               className="w-[24vw]"
               color="primary"
               id="outlined-required"
@@ -91,6 +94,8 @@ const Login = () => {
               label="Password"
               defaultValue=""
               onChange={(e) => setPassword(e.target.value)}
+              data-testid = 'password-input'
+
             />
           </div>
         </div>

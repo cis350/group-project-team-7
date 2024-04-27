@@ -1,14 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
-
-
-// export default [
-//   {
-//     languageOptions: { globals: globals.browser }},
-//     pluginJs.configs.recommended,
-//     pluginReactConfig,
-// ];
+import pluginCypress from 'eslint-plugin-cypress';
 
 export default [
     {
@@ -24,4 +17,8 @@ export default [
     },
     pluginReactConfig,
     pluginJs.configs.recommended,
+    {
+        files: ["cypress/**/*.js"],  // Targeting Cypress test files
+        extends: ["plugin:cypress/recommended"]
+    }
   ];
