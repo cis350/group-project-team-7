@@ -30,7 +30,7 @@ describe('Accounts.js tests', () => {
 
   afterAll((done) => {
     server.close(done);  // This tells Jest to wait for the server to close before finishing the tests
-  });  
+  });
 
   beforeEach(async () => {
     await db.collection('users').deleteMany({});
@@ -66,14 +66,14 @@ describe('Accounts.js tests', () => {
         .post('/login')
         .query({ username: 'user', password: 'password' });
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual({ id: 'user_id', username: 'user'});
+      expect(response.body).toEqual({ id: 'user_id', username: 'user' });
     });
 
     test('should return 400 if username does not exist', async () => {
       const response = await request(app)
         .post('/login')
         .query({ username: 'user', password: 'password' });
-      
+
       expect(response.statusCode).toBe(401);
       expect(response.text).toBe('Invalid credentials');
     });
@@ -119,7 +119,7 @@ describe('Accounts.js tests', () => {
       const response = await request(app)
         .post('/update_profile_picture')
         .query({ username: 'user', profilePicture: 'new_profile_picture_url' });
-      
+
       expect(response.statusCode).toBe(201);
       expect(response.text).toBe('Profile picture updated');
     });
@@ -133,5 +133,46 @@ describe('Accounts.js tests', () => {
       expect(response.text).toBe('User does not exist');
     });
   });
-  
+
+  describe('Update Answers', () => {
+    test('should return 201 if new answer entry is created successfully', async () => {
+      const response = await request(app)
+        .post('/updateAnswers')
+        .send({
+          username: 'testUser',
+          answer1: 'answer1',
+          answer2: 'answer2',
+          answer3: 'answer3',
+          answer4: 'answer4',
+        });
+
+      expect(response.status).toBe(201);
+      expect(response.text).toBe('New answer entry created');
+    });
+
+    test('should return 400 if answer entry creation fails', async () => {
+      // Mock getDB to throw an error
+      jest.spyOn(require('../path/to/your/module'), 'getDB').mockImplementation(() => {
+        throw new Error('Database error');
+      });
+
+      const response = await request(app)
+        .post('/updateAnswers')
+        .send({
+          username: 'testUser',
+          answer1: 'answer1',
+          answer2: 'answer2',
+          answer3: 'answer3',
+          answer4: 'answer4',
+        });
+
+      expect(response.status).toBe(400);
+      expect(response.text).toBe('Failed to create answer entry');
+    });
+  });
+
+
+
+
+
 });
