@@ -7,6 +7,9 @@ import toast from 'react-hot-toast';
 // const serverPort = process.env.REACT_APP_SERVER_PORT;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+/**
+ * Login component
+ */
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

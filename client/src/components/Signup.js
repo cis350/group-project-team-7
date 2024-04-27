@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import toast from 'react-hot-toast';
 
-// const serverHost = process.env.REACT_APP_SERVER_HOST;
-// const serverPort = process.env.REACT_APP_SERVER_PORT;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 console.log("serverUrl", serverUrl);
 
-
+/**
+ * Signup component
+ */
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

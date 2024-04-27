@@ -1,6 +1,11 @@
 // import mongo from database.js
 const { getDB, closeMongoDBConnection, connect } = require('./database');
 
+/**
+ * Create a new account
+ * @param {Request} req
+ * @param {Response} res
+ */
 const signupAccount = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
@@ -23,6 +28,11 @@ const signupAccount = async (req, res) => {
   }
 };
 
+/**
+ * Login to an existing account
+ * @param {Request} req
+ * @param {Response} res
+ */
 const loginAccount = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
@@ -43,6 +53,11 @@ const loginAccount = async (req, res) => {
   }
 };
 
+/**
+ * Update profile picture
+ * @param {Request} req
+ * @param {Response} res
+ */
 const updateProfilePicture = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
@@ -56,7 +71,11 @@ const updateProfilePicture = async (req, res) => {
   }
 };
 
-
+/**
+ * Get user information
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getUserInfo = async (req, res) => {
   const db = await getDB();
   const username = req.query?.username ?? undefined;
@@ -69,16 +88,29 @@ const getUserInfo = async (req, res) => {
   }
 };
 
+/**
+ * Get current user
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getCurrentUser = async (req, res) => {
   const username = req.session.username ?? "";
   res.send(username);
 }
 
+/**
+ * Logout of current account and destoys session
+ */
 const logoutAccount = async (req, res) => {
   req.session.destroy();
   res.send('Logged out');
 }
 
+/**
+ * Given answers to the form, creates a new answer and adds it to the database
+ * @param {Request} req
+ * @param {Response} res
+ */
 const createAnswers = async (req, res) => {
   const db = await getDB();
   const username = req.session.username ?? "";

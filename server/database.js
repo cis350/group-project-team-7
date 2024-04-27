@@ -35,6 +35,7 @@ const connect = async () => {
     console.log(err.message);
   }
 };
+
 /**
  *
  * @returns the database attached to this MongoDB connection

@@ -6,8 +6,10 @@ import toast from 'react-hot-toast';
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+/**
+ * Form component
+ */
 const Form = () => {
-//   const [username, setUsername] = useState("");
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
@@ -32,6 +34,7 @@ const Form = () => {
     "I feel like I don't belong at all"
   ];
 
+  // check if user is logged in
   useEffect(() => {
     fetch(`${serverUrl}/get_current_user`, {
       method: "GET",
