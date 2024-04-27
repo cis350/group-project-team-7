@@ -41,7 +41,9 @@ app.get('/get_current_user', accounts.getCurrentUser);
 app.get('/get_user_info', accounts.getUserInfo);
 app.post('/login', accounts.loginAccount);
 app.post('/logout', accounts.logoutAccount);
-app.post('/update_profile_picture', accounts.updateProfilePicture);
+// app.post('/update_profile_picture', accounts.updateProfilePicture);
+app.post('/update_answer', accounts.createAnswers);
+
 
 const server = app.listen(serverPort, () => {
   console.log(
