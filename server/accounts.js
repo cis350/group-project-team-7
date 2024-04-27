@@ -1,5 +1,7 @@
 // import mongo from database.js
 const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser } = require('./database');
+// import session from session.js
+const { saveUserToSession, destroySession, getUserFromSession } = require('./session');
 
 /**
  * Create a new account
@@ -21,8 +23,9 @@ const signupAccount = async (req, res) => {
     res.status(400).send('Username already exists');
   } else {
     const result = await addUser(newUser);
-    req.session.username = username;
-    req.session.save();
+    // req.session.username = username;
+    // req.session.save();
+    saveUserToSession(req.session, username);
     res.status(201).send(result.insertedId);
   }
 };
@@ -40,8 +43,9 @@ const loginAccount = async (req, res) => {
   if (exists) {
     //Check password
     if (exists.password === password) {
-      req.session.username = username;
-      req.session.save();
+    //   req.session.username = username;
+    //   req.session.save();
+      saveUserToSession(req.session, username);
       res.status(201).send(exists);
     } else {
       res.status(400).send('Incorrect password');
@@ -91,7 +95,8 @@ const getUserInfo = async (req, res) => {
  * @param {Response} res
  */
 const getCurrentUser = async (req, res) => {
-  const username = req.session.username ?? "";
+//   const username = req.session.username ?? "";
+  const username = getUserFromSession(req.session) ?? "";
   res.send(username);
 }
 
@@ -99,7 +104,9 @@ const getCurrentUser = async (req, res) => {
  * Logout of current account and destoys session
  */
 const logoutAccount = async (req, res) => {
-  req.session.destroy();
+//   req.session.destroy();
+  // destory the session
+  destroySession(req.session);
   res.send('Logged out');
 }
 
@@ -109,7 +116,8 @@ const logoutAccount = async (req, res) => {
  * @param {Response} res
  */
 const createAnswers = async (req, res) => {
-  const username = req.session.username ?? "";
+//   const username = req.session.username ?? "";
+  const username = getUserFromSession(req.session) ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
   const answer2 = req.query?.answer2 ?? undefined;
   const answer3 = req.query?.answer3 ?? undefined;
