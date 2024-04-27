@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests --updateSnapshot",
+    "test": "react-scripts test --coverage --passWithNoTests --updateSnapshot",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js"
   },
