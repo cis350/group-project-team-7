@@ -43,3 +43,4 @@
 # coverage/
 # dist/
 # tmp/
+.vscode/settings.json
