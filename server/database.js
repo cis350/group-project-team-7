@@ -56,9 +56,42 @@ const closeMongoDBConnection = async () => {
   await MongoConnection.close();
 };
 
+/**
+ * Function that adds object to 'answer' database
+ */
+const addAnswer = async (answer) => {
+  const db = await getDB();
+  const result = await db.collection('answers').insertOne(answer);
+  return result.insertedId;
+}
+
+/**
+ * Function that adds object to 'users' database
+ */
+const addUser = async (answer) => {
+    const db = await getDB();
+    const result = await db.collection('users').insertOne(answer);
+    return result.insertedId;
+  }
+
+/**
+ * Get user information
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getUserInfoDb = async (username) => {
+    const db = await getDB();
+  
+    const exists = await db.collection('users').findOne({ username: username });
+    return exists;
+  };
+
 
 module.exports = {
   closeMongoDBConnection,
   getDB,
   connect,
+  addAnswer,
+  getUserInfoDb,
+  addUser
 };

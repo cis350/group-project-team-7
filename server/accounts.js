@@ -1,5 +1,5 @@
 // import mongo from database.js
-const { getDB, closeMongoDBConnection, connect } = require('./database');
+const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser } = require('./database');
 
 /**
  * Create a new account
@@ -7,7 +7,6 @@ const { getDB, closeMongoDBConnection, connect } = require('./database');
  * @param {Response} res
  */
 const signupAccount = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
@@ -17,11 +16,11 @@ const signupAccount = async (req, res) => {
     profilePicture: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
   };
 
-  const exists = await db.collection('users').findOne({ username: username });
+  const exists = await getUserInfoDb(username);
   if (exists) {
     res.status(400).send('Username already exists');
   } else {
-    const result = await db.collection('users').insertOne(newUser);
+    const result = await addUser(newUser);
     req.session.username = username;
     req.session.save();
     res.status(201).send(result.insertedId);
@@ -34,11 +33,10 @@ const signupAccount = async (req, res) => {
  * @param {Response} res
  */
 const loginAccount = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
   const password = req.query?.password ?? undefined;
 
-  const exists = await db.collection('users').findOne({ username: username });
+  const exists = await getUserInfoDb(username);
   if (exists) {
     //Check password
     if (exists.password === password) {
@@ -58,18 +56,18 @@ const loginAccount = async (req, res) => {
  * @param {Request} req
  * @param {Response} res
  */
-const updateProfilePicture = async (req, res) => {
-  const db = await getDB();
-  const username = req.query?.username ?? undefined;
-  const profilePicture = req.query?.profilePicture ?? undefined;
+// const updateProfilePicture = async (req, res) => {
+//   const db = await getDB();
+//   const username = req.query?.username ?? undefined;
+//   const profilePicture = req.query?.profilePicture ?? undefined;
 
-  const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
-  if (exists) {
-    res.status(201).send('Profile picture updated')
-  } else {
-    res.status(400).send('User does not exist')
-  }
-};
+//   const exists = await db.collection('users').updateOne({ username: username }, { $set: { profilePicture: profilePicture } })
+//   if (exists) {
+//     res.status(201).send('Profile picture updated')
+//   } else {
+//     res.status(400).send('User does not exist')
+//   }
+// };
 
 /**
  * Get user information
@@ -77,15 +75,14 @@ const updateProfilePicture = async (req, res) => {
  * @param {Response} res
  */
 const getUserInfo = async (req, res) => {
-  const db = await getDB();
   const username = req.query?.username ?? undefined;
-
-  const exists = await db.collection('users').findOne({ username: username });
-  if (exists) {
-    res.status(200).send(exists)
-  } else {
-    res.status(400).send('User does not exist')
-  }
+  getUserInfoDb(username).then((data) => {
+    if (data) {
+        res.status(200).send(data)
+      } else {
+        res.status(400).send('User does not exist')
+      }
+  });
 };
 
 /**
@@ -112,7 +109,6 @@ const logoutAccount = async (req, res) => {
  * @param {Response} res
  */
 const createAnswers = async (req, res) => {
-  const db = await getDB();
   const username = req.session.username ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
   const answer2 = req.query?.answer2 ?? undefined;
@@ -126,9 +122,9 @@ const createAnswers = async (req, res) => {
     answer3: answer3,
     answer4: answer4,
   };
-
-  const result = await db.collection('answers').insertOne(newAnswer);
-  res.status(201).send(result.insertedId);
+  // ask database module to add to the database
+  const insId = await addAnswer(newAnswer);
+  res.status(201).send(insId);
 };
 
 
@@ -142,6 +138,6 @@ module.exports = {
   loginAccount,
   logoutAccount,
   getUserInfo,
-  updateProfilePicture,
+//   updateProfilePicture,
   createAnswers
 };
