@@ -43,8 +43,8 @@ const loginAccount = async (req, res) => {
   if (exists) {
     //Check password
     if (exists.password === password) {
-    //   req.session.username = username;
-    //   req.session.save();
+      //   req.session.username = username;
+      //   req.session.save();
       saveUserToSession(req.session, username);
       res.status(201).send(exists);
     } else {
@@ -82,10 +82,10 @@ const getUserInfo = async (req, res) => {
   const username = req.query?.username ?? undefined;
   getUserInfoDb(username).then((data) => {
     if (data) {
-        res.status(200).send(data)
-      } else {
-        res.status(400).send('User does not exist')
-      }
+      res.status(200).send(data)
+    } else {
+      res.status(400).send('User does not exist')
+    }
   });
 };
 
@@ -95,7 +95,7 @@ const getUserInfo = async (req, res) => {
  * @param {Response} res
  */
 const getCurrentUser = async (req, res) => {
-//   const username = req.session.username ?? "";
+  //   const username = req.session.username ?? "";
   const username = getUserFromSession(req.session) ?? "";
   res.send(username);
 }
@@ -104,7 +104,7 @@ const getCurrentUser = async (req, res) => {
  * Logout of current account and destoys session
  */
 const logoutAccount = async (req, res) => {
-//   req.session.destroy();
+  //   req.session.destroy();
   // destory the session
   destroySession(req.session);
   res.send('Logged out');
@@ -116,7 +116,7 @@ const logoutAccount = async (req, res) => {
  * @param {Response} res
  */
 const createAnswers = async (req, res) => {
-//   const username = req.session.username ?? "";
+  //   const username = req.session.username ?? "";
   const username = getUserFromSession(req.session) ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
   const answer2 = req.query?.answer2 ?? undefined;
@@ -135,6 +135,12 @@ const createAnswers = async (req, res) => {
   res.status(201).send(insId);
 };
 
+const getAllAnswers = async (req, res) => {
+  const db = await getDB();
+  const answers = await db.collection('answers').find({}).toArray();
+  res.status(200).send(answers);
+}
+
 
 
 module.exports = {
@@ -146,6 +152,7 @@ module.exports = {
   loginAccount,
   logoutAccount,
   getUserInfo,
-//   updateProfilePicture,
-  createAnswers
+  //   updateProfilePicture,
+  createAnswers,
+  getAllAnswers
 };
