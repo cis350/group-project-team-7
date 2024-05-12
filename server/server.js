@@ -43,6 +43,7 @@ app.post('/login', accounts.loginAccount);
 app.post('/logout', accounts.logoutAccount);
 app.post('/update_profile_picture', accounts.updateProfilePicture);
 app.post('/update_answer', accounts.createAnswers);
+app.get('/get_answers', accounts.getAllAnswers);
 
 
 const server = app.listen(serverPort, () => {

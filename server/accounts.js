@@ -153,6 +153,15 @@ const createAnswers = async (req, res) => {
   res.status(201).send(result.insertedId);
 };
 
+const getAllAnswers = async (req, res) => {
+  const db = await getDB();
+  const answers = await db.collection('answers').find({}).toArray();
+  res.status(200).send(answers);
+}
+
+
+
+
 
 
 module.exports = {
@@ -165,5 +174,6 @@ module.exports = {
   logoutAccount,
   getUserInfo,
   updateProfilePicture,
-  createAnswers
+  createAnswers,
+  getAllAnswers
 };
