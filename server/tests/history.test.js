@@ -2,7 +2,15 @@ const { MongoClient } = require('mongodb');
 const request = require('supertest');
 const { app, server } = require('../server'); // Adjust path as needed
 
-describe('Visualizations.js tests', () => {
+// Setup necessary middleware for session handling
+const session = require('express-session');
+app.use(session({
+    secret: 'test secret', // Replace with your actual secret in production
+    resave: false,
+    saveUninitialized: true
+}));
+
+describe('History.js tests', () => {
   let connection;
   let db;
 
@@ -28,35 +36,26 @@ describe('Visualizations.js tests', () => {
     expect(count).toBe(0); // Ensure that the database is empty
   });
 
-  describe('GET /get_answers', () => {
-    test('should confirm specific answer object exists', async () => {
-      // Assuming the data has already been inserted either in a beforeEach block or within this test
-      const response = await request(app)
-        .get('/get_answers')
-        .expect(200)
-        .expect('Content-Type', /json/);
-  
-      // Check if the specific object exists in the response
-      expect(response.body).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            _id: expect.any(String), // If _id is not predictable, use expect.any(String)
-            answer1: "Extremely Helpful",
-            answer2: "Very Helpful",
-            answer3: "I feel like I really belong",
-            answer4: "Great experience overall.",
-            username: "test"
-          })
-        ])
-      );
-    });
-  });
-
   describe('GET /get_user_answers?username=${username}', () => {
     test('should confirm specific answer object exists', async () => {
       // Assuming the data has already been inserted either in a beforeEach block or within this test
-      const response = await request(app)
-        .get('/get_answers')
+      // Simulate session with username 'test'
+      const agent = request.agent(app);
+      agent.use((req, res, next) => {
+        req.session.user = 'test'; // Adjust based on how your session is structured
+        next();
+      });
+
+      await db.collection('answers').insertOne({
+        username: 'test',
+        answer1: "Extremely Helpful",
+        answer2: "Very Helpful",
+        answer3: "I feel like I really belong",
+        answer4: "Great experience overall."
+      });
+
+      const response = await agent
+        .get(`/get_user_answers`)
         .expect(200)
         .expect('Content-Type', /json/);
   
