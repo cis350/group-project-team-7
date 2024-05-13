@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryLabel, VictoryContainer } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryLabel } from "victory";
+import WordCloud from "react-d3-cloud";
+
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -57,7 +59,24 @@ const DataVisualization = () => {
         return data;
     };
 
+
+
     // Analyze the most frequent usernames
+    const processDataForWordCloud = () => {
+        const wordCloudData = answers.map((answer) => answer.answer4 || "");
+        const wordsCount = wordCloudData.join(" ").split(/\s+/).reduce((counts, word) => {
+            counts[word] = (counts[word] || 0) + 1;
+            return counts;
+        }, {});
+
+        const data = Object.keys(wordsCount).map((word) => ({
+            text: word,
+            value: wordsCount[word],
+        }));
+        console.log(data, "tag")
+        return data;
+    };
+
     const mostFrequentUsernames = () => {
         const usernameCounts = answers.reduce((counts, answer) => {
             const username = answer.username || "Unknown"; // Use "Unknown" if username is not provided
@@ -90,7 +109,6 @@ const DataVisualization = () => {
                         <option value="answer1">Answer 1</option>
                         <option value="answer2">Answer 2</option>
                         <option value="answer3">Answer 3</option>
-                        <option value="answer4">Answer 4</option>
                     </select>
                 </div>
                 <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
@@ -132,6 +150,23 @@ const DataVisualization = () => {
                     />
                 </VictoryChart>
             </div>
+            <div className="w-full p-4">
+                <h2 className="text-lg font-semibold mb-4">Word Cloud</h2>
+                <WordCloud
+                    data={processDataForWordCloud()}
+                    width={500}
+                    height={100}
+                    fontStyle="italic"
+                    fontWeight="bold"
+                    fontSize={(word) => Math.log2(word.value) * 5}
+                    spiral="rectangular"
+                    rotate={(word) => word.value % 360}
+                    padding={5}
+                    random={Math.random}
+
+                />
+            </div>
+
         </div>
     );
 };

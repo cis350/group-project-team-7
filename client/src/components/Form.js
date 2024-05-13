@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import toast from 'react-hot-toast';
 
-
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 /**
@@ -82,10 +81,10 @@ const Form = () => {
   // Logout function
   const handleLogout = () => {
     fetch(`${serverUrl}/logout`, {
-    method: "POST",
-    credentials: 'include'
+      method: "POST",
+      credentials: 'include'
     }).then(() => {
-        navigate("/login");
+      navigate("/login");
     });
   };
 

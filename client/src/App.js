@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import Form from './components/Form'
 import Visualization from './components/Visualization'
+import History from './components/History'
 
 // Define the pages of our site
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/form" element={<Form />} />
         <Route path="/visual" element={<Visualization />} />
+        <Route path="/history" element={<History />} />
+
         <Route path="*" element={<div>Not found.</div>} />
       </Routes>
     </div>

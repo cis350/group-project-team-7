@@ -141,6 +141,12 @@ const getAllAnswers = async (req, res) => {
   res.status(200).send(answers);
 }
 
+const getAnswers = async (req, res) => {
+  const db = await getDB();
+  const user = getUserFromSession(req.session) ?? "";
+  const answers = await db.collection('answers').find({ username: user }).toArray();
+  res.status(200).send(answers);
+}
 
 
 module.exports = {
@@ -154,5 +160,6 @@ module.exports = {
   getUserInfo,
   //   updateProfilePicture,
   createAnswers,
-  getAllAnswers
+  getAllAnswers,
+  getAnswers
 };
