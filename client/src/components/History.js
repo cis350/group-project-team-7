@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 const UserAnswers = () => {
     const { username } = useParams();
     const [userAnswers, setUserAnswers] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchUserAnswers = async () => {
             try {
-                const response = await fetch(`${serverUrl}/get_user_answers?username=${username}`);
+                const response = await fetch(`${serverUrl}/get_user_answers?username=${username}`, {
+                    method: "GET",
+                    credentials: 'include'
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch user answers");
                 }
@@ -25,10 +32,34 @@ const UserAnswers = () => {
         fetchUserAnswers();
     }, [username]);
 
-    const handleDeletePost = async (postId, answer1, answer2, answer3) => {
+    useEffect(() => {
+        fetch(`${serverUrl}/get_current_user`, {
+            method: "GET",
+            credentials: 'include',
+        }).then((res) => {
+            console.log("Current User: ", res);
+            res.text()
+        })
+            .then((resText) => {
+                console.log(resText)
+                if (resText) {
+                    console.log("Current User: ", resText)
+                } else {
+                    // redirect to login
+                    // navigate("/")
+                }
+            });
+    }, []);
+
+
+    const handleDeletePost = async (postId) => {
         try {
-            const response = await fetch(`${serverUrl}/get_user_answers?answer1=${answer1}&answer2=${answer2}&answer3=${answer3}`);
+            const response = await fetch(`${serverUrl}/delete_one_answer?_id=${postId}`, {
+                method: "DELETE",
+                credentials: 'include',
+            });
             if (!response.ok) {
+                console.log("error")
                 throw new Error("Failed to delete post");
             }
             setUserAnswers(userAnswers.filter((answer) => answer._id !== postId));
@@ -39,6 +70,12 @@ const UserAnswers = () => {
 
     return (
         <div className="flex flex-col items-center justify-center space-y-4">
+            <button
+                type="button"
+                onClick={() => navigate("/form")}
+                className="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+                Return to Form
+            </button>
             <Typography variant="h4" component="h1" className="mb-4">
                 Your Post History:
             </Typography>
@@ -62,7 +99,7 @@ const UserAnswers = () => {
                         </Typography>
                         <Button
                             onClick={() =>
-                                handleDeletePost(answer._id, answer.answer1, answer.answer2, answer.answer3)
+                                handleDeletePost(answer._id)
                             }
                             color="error"
                         >

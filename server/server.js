@@ -44,7 +44,7 @@ app.post('/logout', accounts.logoutAccount);
 app.post('/update_answer', accounts.createAnswers);
 app.get('/get_answers', accounts.getAllAnswers);
 app.get('/get_user_answers', accounts.getAnswers);
-app.get('/delete_one_answer', accounts.deleteAnswer);
+app.delete('/delete_one_answer', accounts.deleteAnswer);
 
 
 

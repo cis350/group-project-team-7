@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryLabel, VictoryContainer } from "victory";
 import WordCloud from "react-d3-cloud";
+import { useNavigate } from "react-router-dom";
+
 
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -8,11 +10,16 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 const DataVisualization = () => {
     const [answers, setAnswers] = useState([]);
     const [selectedAnswer, setSelectedAnswer] = useState("answer1");
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${serverUrl}/get_answers`);
+                const response = await fetch(`${serverUrl}/get_answers`, {
+                    method: "GET",
+                    credentials: 'include'
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
                 }
@@ -26,6 +33,26 @@ const DataVisualization = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        fetch(`${serverUrl}/get_current_user`, {
+            method: "GET",
+            credentials: 'include',
+        }).then((res) => {
+            console.log("Current User: ", res);
+            res.text()
+        })
+            .then((resText) => {
+                console.log(resText)
+                if (resText) {
+                    console.log("Current User: ", resText)
+                } else {
+                    // redirect to login
+                    // navigate("/")
+                }
+            });
+    }, []);
+
 
     // Process the fetched data for visualization based on selected answer type
     const processDataForBarChart = () => {
@@ -166,6 +193,12 @@ const DataVisualization = () => {
 
                 />
             </div>
+            <button
+                type="button"
+                onClick={() => navigate("/form")}
+                className="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+                Return to Form
+            </button>
 
         </div>
     );
