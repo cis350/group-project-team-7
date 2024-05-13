@@ -2,6 +2,8 @@
 const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser } = require('./database');
 // import session from session.js
 const { saveUserToSession, destroySession, getUserFromSession } = require('./session');
+const { ObjectId } = require('mongodb');
+
 
 /**
  * Create a new account
@@ -20,11 +22,13 @@ const signupAccount = async (req, res) => {
 
   const exists = await getUserInfoDb(username);
   if (exists) {
+    console.log(username, "username");
     res.status(400).send('Username already exists');
   } else {
     const result = await addUser(newUser);
     // req.session.username = username;
     // req.session.save();
+    console.log(username, "username")
     saveUserToSession(req.session, username);
     res.status(201).send(result.insertedId);
   }
@@ -46,6 +50,8 @@ const loginAccount = async (req, res) => {
       //   req.session.username = username;
       //   req.session.save();
       saveUserToSession(req.session, username);
+      console.log(username, "username");
+      console.log(req.session.username, "sess user");
       res.status(201).send(exists);
     } else {
       res.status(400).send('Incorrect password');
@@ -116,6 +122,7 @@ const logoutAccount = async (req, res) => {
  * @param {Response} res
  */
 const createAnswers = async (req, res) => {
+  console.log(req.session.username, "sess user");
   //   const username = req.session.username ?? "";
   const username = getUserFromSession(req.session) ?? "";
   const answer1 = req.query?.answer1 ?? undefined;
@@ -136,32 +143,46 @@ const createAnswers = async (req, res) => {
 };
 
 const getAllAnswers = async (req, res) => {
+  console.log(req.session.username, "sess user");
+
   const db = await getDB();
   const answers = await db.collection('answers').find({}).toArray();
   res.status(200).send(answers);
 }
 
 const getAnswers = async (req, res) => {
+  console.log(req.session.username, "sess user");
+
   const db = await getDB();
   const user = getUserFromSession(req.session) ?? "";
+  console.log(user, "curr user")
   const answers = await db.collection('answers').find({ username: user }).toArray();
   res.status(200).send(answers);
 }
 
+// const deleteAnswer = async (req, res) => {
+//   const db = await getDB();
+//   const answer1 = req.query?.answer1 ?? undefined;
+//   const answer2 = req.query?.answer2 ?? undefined;
+//   const answer3 = req.query?.answer3 ?? undefined;
+//   console.log(answer1, answer2, answer3, "delete")
+//   const answers = await db.collection('answers').deleteOne({
+//     answer1: answer1,
+//     answer2: answer2,
+//     answer3: answer3,
+//   });
+//   res.status(200).send(answers);
+// }
+
 const deleteAnswer = async (req, res) => {
   const db = await getDB();
-  const username = getUserFromSession(req.session) ?? "";
-  const answer1 = req.query?.answer1 ?? undefined;
-  const answer2 = req.query?.answer2 ?? undefined;
-  const answer3 = req.query?.answer3 ?? undefined;
+  const _id = req.query?._id ?? undefined;
   const answers = await db.collection('answers').deleteOne({
-    username: username,
-    answer1: answer1,
-    answer2: answer2,
-    answer3: answer3,
+    _id: new ObjectId(_id)
   });
   res.status(200).send(answers);
 }
+
 
 
 module.exports = {

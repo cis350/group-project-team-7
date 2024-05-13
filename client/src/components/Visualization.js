@@ -12,7 +12,10 @@ const DataVisualization = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${serverUrl}/get_answers`);
+                const response = await fetch(`${serverUrl}/get_answers`, {
+                    method: "GET",
+                    credentials: 'include'
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
                 }
@@ -26,6 +29,26 @@ const DataVisualization = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        fetch(`${serverUrl}/get_current_user`, {
+            method: "GET",
+            credentials: 'include',
+        }).then((res) => {
+            console.log("Current User: ", res);
+            res.text()
+        })
+            .then((resText) => {
+                console.log(resText)
+                if (resText) {
+                    console.log("Current User: ", resText)
+                } else {
+                    // redirect to login
+                    // navigate("/")
+                }
+            });
+    }, []);
+
 
     // Process the fetched data for visualization based on selected answer type
     const processDataForBarChart = () => {
