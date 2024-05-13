@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import toast
 import toast from 'react-hot-toast';
-
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -12,7 +10,6 @@ const UserAnswers = () => {
     const { username } = useParams();
     const [userAnswers, setUserAnswers] = useState([]);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         const fetchUserAnswers = async () => {
@@ -34,26 +31,6 @@ const UserAnswers = () => {
         fetchUserAnswers();
     }, [username]);
 
-    useEffect(() => {
-        fetch(`${serverUrl}/get_current_user`, {
-            method: "GET",
-            credentials: 'include',
-        }).then((res) => {
-            console.log("Current User: ", res);
-            res.text()
-        })
-            .then((resText) => {
-                console.log(resText)
-                if (resText) {
-                    console.log("Current User: ", resText)
-                } else {
-                    // redirect to login
-                    // navigate("/")
-                }
-            });
-    }, []);
-
-
     const handleDeletePost = async (postId) => {
         try {
             const response = await fetch(`${serverUrl}/delete_one_answer?_id=${postId}`, {
@@ -61,10 +38,9 @@ const UserAnswers = () => {
                 credentials: 'include',
             });
             if (!response.ok) {
-                console.log("error")
                 throw new Error("Failed to delete post");
             }
-            toast.success("Deleted Answer!")
+            toast.success("Deleted Answer!");
             setUserAnswers(userAnswers.filter((answer) => answer._id !== postId));
         } catch (error) {
             console.error("Error deleting post:", error);
@@ -72,45 +48,43 @@ const UserAnswers = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center space-y-4">
-            <button
-                type="button"
-                onClick={() => navigate("/form")}
-                className="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
-                Return to Form
-            </button>
-            <Typography variant="h4" component="h1" className="mb-4">
-                Your Post History:
-            </Typography>
-            {userAnswers.map((answer, index) => (
-                <Card key={index} className="w-full max-w-md">
-                    <CardContent>
-                        <Typography variant="h6" component="h2" className="mb-2">
-                            Post {index + 1}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {answer.answer1}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {answer.answer2}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {answer.answer3}
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            {answer.answer4}
-                        </Typography>
-                        <Button
-                            onClick={() =>
-                                handleDeletePost(answer._id)
-                            }
-                            color="error"
-                        >
-                            Delete
-                        </Button>
-                    </CardContent>
-                </Card>
-            ))}
+        <div style={{ height: "100vh", padding: "5vh" }} className="w-100">
+            <div className="text-center mb-4 text-4xl font-semibold">Your Post History:</div>
+            <div className="grid grid-cols-3 gap-4">
+                {userAnswers.map((answer, index) => (
+                    <Card key={index} className="max-w-md mb-4">
+                        <CardContent>
+                            <Typography variant="h6" component="h2" className="mb-2">
+                                Post {index + 1}
+                            </Typography>
+                            <Typography variant="body1" component="p" className="mb-2">
+                                {answer.answer1}
+                            </Typography>
+                            <Typography variant="body1" component="p" className="mb-2">
+                                {answer.answer2}
+                            </Typography>
+                            <Typography variant="body1" component="p" className="mb-2">
+                                {answer.answer3}
+                            </Typography>
+                            <Typography variant="body1" component="p" className="mb-2">
+                                {answer.answer4}
+                            </Typography>
+                            <Button onClick={() => handleDeletePost(answer._id)} color="error" variant="contained">
+                                Delete
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+            <div className="text-center">
+                <Button
+                    onClick={() => navigate("/form")}
+                    variant="contained"
+                    className="mt-4"
+                >
+                    Return to Form
+                </Button>
+            </div>
         </div>
     );
 };

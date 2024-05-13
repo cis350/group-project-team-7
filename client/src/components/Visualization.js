@@ -94,6 +94,8 @@ const DataVisualization = () => {
             value: wordsCount[word],
         }));
 
+        console.log(data, "word cloud data")
+
         return data;
     };
 
