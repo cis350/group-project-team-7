@@ -74,7 +74,7 @@ describe('form', () => {
 
   it('shows error if form is not completely filled out', () => {
     cy.get('button').contains('Submit').click();
-    cy.contains('Please answer all the questions').should('be.visible');
+    cy.contains('Please answer all mandatory questions').should('be.visible');
 
     cy.get('#select1').select('Extremely Helpful');
     cy.get("#select1 option:selected")
@@ -89,6 +89,6 @@ describe('form', () => {
     cy.get('input').type('I enjoyed the experience.');
 
     cy.get('button').contains('Submit').click();
-    cy.contains('Please answer all the questions').should('be.visible');
+    cy.contains('Please answer all mandatory questions').should('be.visible');
   });
 })

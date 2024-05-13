@@ -3,6 +3,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@mui/material": "^5.12.2",
+    "cypress": "^13.9.0",
     "mongodb": "^6.5.0",
     "react-d3-cloud": "^1.0.6"
   }

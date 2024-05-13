@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+// import toast
+import toast from 'react-hot-toast';
 
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -62,6 +64,7 @@ const UserAnswers = () => {
                 console.log("error")
                 throw new Error("Failed to delete post");
             }
+            toast.success("Deleted Answer!")
             setUserAnswers(userAnswers.filter((answer) => answer._id !== postId));
         } catch (error) {
             console.error("Error deleting post:", error);
