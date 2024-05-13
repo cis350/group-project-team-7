@@ -4,8 +4,17 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Signup from '../components/Signup.js'; 
 import toast from 'react-hot-toast';
 
+
 describe('Signup Component', () => {
     test('should match the snapshot', () => {
+        global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+        );
         const { asFragment } = render(
             <Router>
                 <Signup />
@@ -15,6 +24,14 @@ describe('Signup Component', () => {
     });
 
     test('username input box is in the document', () => {
+        global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: false, // Set ok property to false for unsuccessful response
+          status: 401, // Unauthorized response for the login attempt
+          json: () => Promise.resolve({ message: "Unauthorized" }),
+          text: () => Promise.resolve("No current user")
+        })
+      );
         render(
             <Router>
                 <Signup />
@@ -25,6 +42,14 @@ describe('Signup Component', () => {
     });
 
     test('password input box is in the document', () => {
+        global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+        );
         render(
             <Router>
                 <Signup />
@@ -35,6 +60,14 @@ describe('Signup Component', () => {
     });
 
     test('continue button is in the document', () => {
+        global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+        );
         render(
             <Router>
                 <Signup />
@@ -45,6 +78,14 @@ describe('Signup Component', () => {
     });
 
     test('the login link is in the document', () => {
+        global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+        );
         render(
             <Router>
                 <Signup />
@@ -58,6 +99,14 @@ describe('Signup Component', () => {
 jest.mock('react-hot-toast');
 
 test('user enters username + password and then is successful', () => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+    );
     render(
       <Router>
         <Signup />
@@ -80,6 +129,14 @@ test('user enters username + password and then is successful', () => {
 });
 
 test('user attempts to signup with empty username', () => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
+    ); 
     render(
       <Router>
         <Signup />
@@ -100,12 +157,12 @@ test('user attempts to signup with empty username', () => {
   
   test('user attempts to signup with invalid username and password', async () => {
     global.fetch = jest.fn(() =>
-      Promise.resolve({
-        // bad request response for the signup attempt
-        status: 400,  
-        json: () => Promise.resolve({ message: "Invalid username or password" }),
-        text: () => Promise.resolve("Invalid username or password")
-      })
+        Promise.resolve({
+            ok: false, // Set ok property to false for unsuccessful response
+            status: 401, // Unauthorized response for the login attempt
+            json: () => Promise.resolve({ message: "Unauthorized" }),
+            text: () => Promise.resolve("No current user")
+        })
     );
   
     render(

@@ -4,4 +4,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
+import 'jest-canvas-mock';
 fetchMock.enableMocks();
+// console.log("Setup file is loaded!");

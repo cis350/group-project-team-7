@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should match the snapshot 1`] = `
+exports[`login should match the snapshot 1`] = `
 <DocumentFragment>
   <div
     class="w-100"
@@ -46,6 +46,7 @@ exports[`should match the snapshot 1`] = `
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
               id="outlined-required"
+              name="Username"
               type="text"
               value=""
             />
@@ -86,6 +87,7 @@ exports[`should match the snapshot 1`] = `
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
               id="outlined-required"
+              name="Password"
               type="text"
               value=""
             />

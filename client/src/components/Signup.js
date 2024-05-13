@@ -20,7 +20,7 @@ const Signup = () => {
     }).then((res) => res.text())
       .then((resText) => {
         if (resText) {
-          console.log("no way")
+          // console.log("no way")
         }
       });
   }, []);
