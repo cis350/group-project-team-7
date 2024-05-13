@@ -9,6 +9,7 @@ const serverPort = process.env.SERVER_PORT;
 
 // Express is used to define API endpoints
 const app = express(express.json());
+app.set('trust proxy', '127.0.0.1');
 
 const corsConfig = {
   credentials: true,
