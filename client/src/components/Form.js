@@ -204,6 +204,14 @@ const Form = () => {
             View History
           </button>
         </div>
+        <div className="m-auto text-center mb-3">
+          <button
+            type="button"
+            onClick={() => navigate("/visual")}
+            className="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+            View Visualization
+          </button>
+        </div>
       </div>
     </>
   );

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 const UserAnswers = () => {
     const { username } = useParams();
     const [userAnswers, setUserAnswers] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchUserAnswers = async () => {
@@ -66,6 +70,12 @@ const UserAnswers = () => {
 
     return (
         <div className="flex flex-col items-center justify-center space-y-4">
+            <button
+                type="button"
+                onClick={() => navigate("/form")}
+                className="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none">
+                Return to Form
+            </button>
             <Typography variant="h4" component="h1" className="mb-4">
                 Your Post History:
             </Typography>
