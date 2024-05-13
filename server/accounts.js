@@ -148,6 +148,21 @@ const getAnswers = async (req, res) => {
   res.status(200).send(answers);
 }
 
+const deleteAnswer = async (req, res) => {
+  const db = await getDB();
+  const username = getUserFromSession(req.session) ?? "";
+  const answer1 = req.query?.answer1 ?? undefined;
+  const answer2 = req.query?.answer2 ?? undefined;
+  const answer3 = req.query?.answer3 ?? undefined;
+  const answers = await db.collection('answers').deleteOne({
+    username: username,
+    answer1: answer1,
+    answer2: answer2,
+    answer3: answer3,
+  });
+  res.status(200).send(answers);
+}
+
 
 module.exports = {
   closeMongoDBConnection,
@@ -161,5 +176,6 @@ module.exports = {
   //   updateProfilePicture,
   createAnswers,
   getAllAnswers,
-  getAnswers
+  getAnswers,
+  deleteAnswer
 };
