@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryLabel } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryLabel, VictoryContainer } from "victory";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -116,7 +116,11 @@ const DataVisualization = () => {
             </div>
             <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 p-4">
                 <h2 className="text-lg font-semibold mb-4">Most Frequent Usernames</h2>
-                <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+                <VictoryChart
+                    domainPadding={20}
+                    theme={VictoryTheme.material}
+                    containerComponent={<VictoryContainer data-testid="bar-chart" />}
+                >
                     <VictoryAxis />
                     <VictoryAxis dependentAxis />
                     <VictoryBar
