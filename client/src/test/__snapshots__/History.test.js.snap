@@ -1,58 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserAnswers Component renders correctly and matches snapshot 1`] = `
+exports[`DataVisualization renders the component and matches the snapshot 1`] = `
 <DocumentFragment>
   <div
     class="flex flex-col items-center justify-center space-y-4"
   >
+    <button
+      class="text-white w-[24vw] bg-blue-900 mt-4 hover:bg-blue-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none"
+      type="button"
+    >
+      Return to Form
+    </button>
     <h1
       class="MuiTypography-root MuiTypography-h4 mb-4 css-5lbw0b-MuiTypography-root"
     >
       Your Post History:
     </h1>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root w-full max-w-md css-bhp9pd-MuiPaper-root-MuiCard-root"
-    >
-      <div
-        class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
-      >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 mb-2 css-2ulfj5-MuiTypography-root"
-        >
-          Post 1
-        </h2>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          Yes
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          No
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          Maybe
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          N/A
-        </p>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textError MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textError MuiButton-sizeMedium MuiButton-textSizeMedium css-10fi992-MuiButtonBase-root-MuiButton-root"
-          tabindex="0"
-          type="button"
-        >
-          Delete
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </button>
-      </div>
-    </div>
   </div>
 </DocumentFragment>
 `;
