@@ -1,5 +1,5 @@
 // import mongo from database.js
-const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser } = require('./database');
+const { getDB, closeMongoDBConnection, connect, addAnswer, getUserInfoDb, addUser, getAllAnswersDb, getAnswersDb, deleteAnswerDb } = require('./database');
 // import session from session.js
 const { saveUserToSession, destroySession, getUserFromSession } = require('./session');
 const { ObjectId } = require('mongodb');
@@ -142,21 +142,29 @@ const createAnswers = async (req, res) => {
   res.status(201).send(insId);
 };
 
+/**
+ * Get all answers from the database
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getAllAnswers = async (req, res) => {
   console.log(req.session.username, "sess user");
 
-  const db = await getDB();
-  const answers = await db.collection('answers').find({}).toArray();
+  const answers = await getAllAnswersDb();
   res.status(200).send(answers);
 }
 
+/**
+ * Get answers from the database for the current user
+ * @param {Request} req
+ * @param {Response} res
+ */
 const getAnswers = async (req, res) => {
   console.log(req.session.username, "sess user");
 
-  const db = await getDB();
   const user = getUserFromSession(req.session) ?? "";
   console.log(user, "curr user")
-  const answers = await db.collection('answers').find({ username: user }).toArray();
+  const answers = await getAnswersDb(user);
   res.status(200).send(answers);
 }
 
@@ -174,12 +182,14 @@ const getAnswers = async (req, res) => {
 //   res.status(200).send(answers);
 // }
 
+/**
+ * Delete an answer from the database
+ * @param {Request} req
+ * @param {Response} res
+ */
 const deleteAnswer = async (req, res) => {
-  const db = await getDB();
   const _id = req.query?._id ?? undefined;
-  const answers = await db.collection('answers').deleteOne({
-    _id: new ObjectId(_id)
-  });
+  const answers = await deleteAnswerDb(_id);
   res.status(200).send(answers);
 }
 

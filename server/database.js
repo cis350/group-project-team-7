@@ -86,6 +86,43 @@ const getUserInfoDb = async (username) => {
     return exists;
   };
 
+/**
+ * Get all answers from the database
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getAllAnswersDb = async () => {
+    // console.log(req.session.username, "sess user");
+  
+    const db = await getDB();
+    const answers = await db.collection('answers').find({}).toArray();
+    return answers;
+  }
+
+/**
+ * Get answers from the database for the current user
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getAnswersDb = async (user) => {  
+    const db = await getDB();
+    console.log(user, "curr user")
+    const answers = await db.collection('answers').find({ username: user }).toArray();
+    return answers;
+  }
+
+/**
+ * Delete an answer from the database
+ * @param {Request} req
+ * @param {Response} res
+ */
+const deleteAnswerDb = async (_id) => {
+    const db = await getDB();
+    const answers = await db.collection('answers').deleteOne({
+      _id: new ObjectId(_id)
+    });
+    return answers;
+  }
 
 module.exports = {
   closeMongoDBConnection,
@@ -93,5 +130,8 @@ module.exports = {
   connect,
   addAnswer,
   getUserInfoDb,
-  addUser
+  addUser,
+  getAllAnswersDb,
+  getAnswersDb,
+  deleteAnswerDb
 };
