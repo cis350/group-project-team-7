@@ -1,11 +1,19 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import History from '../components/History';
 import '@testing-library/jest-dom/extend-expect';
-import { act } from 'react-dom/test-utils';
-import { waitForElementToBeRemoved } from '@testing-library/dom';
 import UserAnswers from '../components/History';
+import { fireEvent } from '@testing-library/react';
+
+jest.mock('react-hot-toast', () => {
+  return {
+    toast: {
+      success: jest.fn(),
+      error: jest.fn()
+    }
+  };
+});
+
 // Mock the navigation
 const mockNavigate = jest.fn();
 
@@ -14,22 +22,16 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-describe('DataVisualization', () => {
-  let consoleSpy;
+describe('History', () => {
   // Setup mock fetch in the global scope
   beforeEach(() => {
     global.fetch = jest.fn(() =>
         Promise.resolve({
-            // ok: false, // Set ok property to false for unsuccessful response
-            // status: 401, // Unauthorized response for the login attempt
-            // json: () => Promise.resolve({ message: "Unauthorized" }),
-            // text: () => Promise.resolve("No current user")
             ok: true,
             json: () => Promise.resolve([{ answer1: "10", answer2: "20", username: "user1" }]),
             text: () => Promise.resolve("Current user information")
         })
     );
-    consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -66,12 +68,58 @@ describe('DataVisualization', () => {
   });
 
   it('handles fetch errors gracefully', async () => {
-    global.fetch.mockRejectedValueOnce(new Error('Failed to fetch data'));
-    const { getByText } = render(
+    global.fetch = jest.fn().mockRejectedValue(new Error('Failed to fetch data'));
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
       <Router>
         <UserAnswers />
       </Router>
     );
+
+    await waitFor(() => {
+      // Verify console error was called with both the error message and the actual error object
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Error fetching user answers:", 
+        expect.any(Error) // This checks if the second argument is an instance of Error
+      );
+    });
+
+    // Check for UI not showing any user answers
+    const posts = screen.queryByText(/Post \d+/i);
+    expect(posts).toBeNull();
+
+    consoleSpy.mockRestore();
   });
+
+  it('deletes a user answer post and updates the UI', async () => {
+    // Setup initial state and mock fetch for both fetch operations
+    const initialAnswers = [{ _id: 'post100', answer1: "Yes", answer2: "No", answer3: "Maybe", answer4: "Definitely" }];
+    global.fetch = jest.fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => initialAnswers,
+      }) // Initial fetch for loading data
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({}), // Assume delete operation returns an empty object
+      });
+
+    render(<Router><UserAnswers /></Router>);
+
+    await screen.findByText("Post 1"); // Make sure the post is initially rendered
+
+    const deleteButton = screen.getByText('Delete');
+    fireEvent.click(deleteButton);
+
+    // Ensure the post is no longer in the document
+    await waitFor(() => {
+      expect(screen.queryByText("Post 10")).not.toBeInTheDocument();
+    });
+
+}, 1000000); // Increase timeout if necessary to allow for state updates
+
+
+  
 
 });

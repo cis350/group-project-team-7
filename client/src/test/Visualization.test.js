@@ -3,8 +3,6 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import DataVisualization from '../components/Visualization';
 import '@testing-library/jest-dom/extend-expect';
-import { act } from 'react-dom/test-utils';
-import { waitForElementToBeRemoved } from '@testing-library/dom';
 // Mock the navigation
 const mockNavigate = jest.fn();
 
@@ -14,7 +12,6 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('DataVisualization', () => {
-  let consoleSpy;
   // Setup mock fetch in the global scope
   beforeEach(() => {
     global.fetch = jest.fn(() =>
@@ -29,7 +26,6 @@ describe('DataVisualization', () => {
 
         })
     );
-    consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -45,7 +41,7 @@ describe('DataVisualization', () => {
 
     const { asFragment } = render(<Router><DataVisualization /></Router>);
     await waitFor(() => {
-      expect(screen.getByText("Data Visualization - Bar Chart")).toBeInTheDocument();
+      expect(screen.getByText("Data Visualization")).toBeInTheDocument();
     });
 
     expect(asFragment()).toMatchSnapshot();
@@ -67,7 +63,7 @@ describe('DataVisualization', () => {
 
   it('handles fetch errors gracefully', async () => {
     global.fetch.mockRejectedValueOnce(new Error('Failed to fetch data'));
-    const { getByText } = render(
+    render(
       <Router>
         <DataVisualization />
       </Router>
@@ -83,15 +79,15 @@ describe('DataVisualization', () => {
 
         render(
         <Router>
-            <DataVisualization />
+          <DataVisualization />
         </Router>
         );
 
         const initialItems = await screen.findAllByText('10');
         expect(initialItems.length).toBeGreaterThan(0); // Confirm initial data loaded
-        act(() => {
-            fireEvent.change(screen.getByLabelText('Select Answer Type:'), { target: { value: 'answer2' } });
-        });
+
+        fireEvent.change(screen.getByLabelText('Select Answer Type:'), { target: { value: 'answer2' } });
+
         const updatedItems = await screen.findAllByText('20');
         expect(updatedItems.length).toBeGreaterThan(0); // Confirm updated data is displayed
     });
