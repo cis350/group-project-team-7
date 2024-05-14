@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signup Component should match the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="w-100"
+    style="height: 100vh; padding: 5vh;"
+  >
+    <div
+      class="d-flex justify-content-center"
+      style="margin-bottom: 12vh;"
+    />
+    <div
+      class="text-center mb-4 text-2xl font-semibold"
+    >
+      Create your account
+    </div>
+    <div
+      class="mx-auto w-fit"
+    >
+      <div>
+        <div
+          class="MuiFormControl-root MuiTextField-root w-[24vw] css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          data-testid="username-input"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="outlined-required"
+            id="outlined-required-label"
+          >
+            Username
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+              id="outlined-required"
+              name="Username"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-yjsfm1"
+              >
+                <span>
+                  Username
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-2"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root w-[24vw] css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          data-testid="password-input"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="outlined-required"
+            id="outlined-required-label"
+          >
+            Password
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+              id="outlined-required"
+              name="Password"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-yjsfm1"
+              >
+                <span>
+                  Password
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="m-auto text-center mb-3"
+    >
+      <button
+        class="text-white w-[24vw] bg-lime-900 mt-4 hover:bg-lime-950 hover:scale-105 active:scale-100 duration-150 font-medium rounded px-5 py-4 focus:outline-none"
+        type="button"
+      >
+        Continue
+      </button>
+    </div>
+    <p
+      class="m-auto text-center text-sm"
+    >
+      Already have an account? 
+      <a
+        class="text-blue-500 text-decoration-none"
+        href="/login"
+      >
+        Log in
+      </a>
+    </p>
+  </div>
+</DocumentFragment>
+`;
